@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from '@emotion/styled'
-import QuestionList from '../QuestionList'
+import styled from '@emotion/styled';
+import QuestionList from '../../components/QuestionList';
 
 function Main() {
 
