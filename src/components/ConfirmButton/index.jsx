@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 
 const ConfirmButton = ({ isFullInput, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton }) => {
   return (
@@ -9,13 +8,6 @@ const ConfirmButton = ({ isFullInput, isWrongRoomNumber, isClickedConfirmButton,
       <Confirm onClick={handleClickConfirmButton} isFullInput = {isFullInput}>확인</Confirm>
     </ThirdRow>
   )
-}
-
-ConfirmButton.propTypes = {
-  isFullInput: PropTypes.bool.isRequired,
-  isWrongRoomNumber: PropTypes.func.isRequired,
-  isClickedConfirmButton: PropTypes.bool.isRequired,
-  handleClickConfirmButton: PropTypes.func.isRequired
 }
 
 export default ConfirmButton;

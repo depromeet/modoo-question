@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 
 class InputBox extends Component {
   constructor(props) {
@@ -150,15 +149,6 @@ class InputBox extends Component {
     );
   }
 };
-
-InputBox.propTypes = {
-  input1: PropTypes.number,
-  input2: PropTypes.number,
-  input3: PropTypes.number,
-  input4: PropTypes.number,
-  handleChangeInput: PropTypes.func.isRequired,
-  pressedKey: PropTypes.number
-}
 
 export default InputBox;
 

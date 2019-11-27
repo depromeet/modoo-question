@@ -2,7 +2,6 @@ import React from 'react';
 import InputBox from '../InputBox';
 import ConfirmButton from '../ConfirmButton'
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 
 const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleChangeInput, handleClickConfirmButton }) => {
   const isFullInput = input1.length +
@@ -37,18 +36,6 @@ const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumbe
   )
 };
 
-EntryBox.propTypes = {
-  input1: PropTypes.number,
-  input2: PropTypes.number,
-  input3: PropTypes.number,
-  input4: PropTypes.number,
-  pressedKey: PropTypes.number,
-  isWrongRoomNumber: PropTypes.func.isRequired,
-  isClickedConfirmButton: PropTypes.bool.isRequired,
-  handleChangeInput: PropTypes.func.isRequired,
-  handleClickConfirmButton: PropTypes.func.isRequired
-}
-
 export default EntryBox;
 
 const Contents = styled.div`
@@ -64,7 +51,6 @@ const Content = styled.div`
 const CenterBox = styled.div`
   width: 328px;
   height: 268px;
-  object-fit: contain;
   border-radius: 5px;
   box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.08);
   background-color: #ffffff;
@@ -73,6 +59,7 @@ const CenterBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin: 0 auto;
+  z-index: 2;
 
   @media screen and (min-width: 769px) {
     width: 496px;
@@ -95,7 +82,6 @@ const FirstRow = styled.div`
 const EntranceRoom = styled.div`
   position: relative;
   left: 16px;
-  object-fit: contain;
   font-size: 16px;
   font-weight: bold;
   line-height: 1.19;
@@ -108,9 +94,9 @@ const EntranceRoom = styled.div`
 `
 
 const CreateRoom = styled.div`
+  display: none;
   position: relative;
   right: 16px;
-  object-fit: contain;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.43;
@@ -118,6 +104,7 @@ const CreateRoom = styled.div`
   text-decoration: underline;
 
   @media screen and (min-width: 769px) {
+    display: block;
     right: 32px;
     font-size: 18px;
   }

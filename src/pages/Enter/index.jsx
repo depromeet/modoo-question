@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import EntryBox from '../../components/EntryBox';
 import styled from '@emotion/styled';
+import EntryView from '../../components/EntryView';
+import SeminarInfo from '../../components/SeminarInfo';
 import logoImg from '../../static/images/33-3@3x.png';
-import DesignerAndDevelopersImg from '../../static/images/11615@3x.png';
-import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
-import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
 
 class Enter extends Component {
   constructor(props) {
@@ -15,7 +13,7 @@ class Enter extends Component {
       input2: '',
       input3: '',
       input4: '',
-      isWrongRoomNumber: true, // 방 번호가 잘못되었는가?, 임시로 true로 설정.
+      isWrongRoomNumber: false, // 방 번호가 잘못되었는가?
       isClickedConfirmButton: false, // 확인 버튼이 클릭 되었는가?
       pressedKey: '',
     }
@@ -31,7 +29,7 @@ class Enter extends Component {
     // 클릭 초기화
     this.setState({
       isClickedConfirmButton: false
-    })
+    });
     const changedText = event.target.value;
     const isLessTwoDigits = () => {
       return event.target.value.length < 2;
@@ -63,25 +61,28 @@ class Enter extends Component {
                         input2.length +
                         input3.length + 
                         input4.length === 4;
+    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && isClickedConfirmButton;
     return (
-      <Body>
-        <Logo />
-        <EntryBox 
-          input1={input1}
-          input2={input2}
-          input3={input3}
-          input4={input4}
-          handleChangeInput={this.handleChangeInput}
-          pressedKey={pressedKey}
-
-          isFullInput={isFullInput}
-          isWrongRoomNumber={isWrongRoomNumber}
-          isClickedConfirmButton={isClickedConfirmButton}
-          handleClickConfirmButton={this.handleClickConfirmButton}
-          />
-        <EntrancePhrase />
-        <DesignerAndDevelopers />
-      </Body>
+      <BackgroundColor>
+        <Body isCorrectRoomNumber={isCorrectRoomNumber}>
+            <Logo />
+            {isCorrectRoomNumber ? 
+            <SeminarInfo />
+            :
+            <EntryView
+              input1={input1}
+              input2={input2}
+              input3={input3}
+              input4={input4}
+              handleChangeInput={this.handleChangeInput}
+              pressedKey={pressedKey}
+              isWrongRoomNumber={isWrongRoomNumber}
+              isClickedConfirmButton={isClickedConfirmButton}
+              handleClickConfirmButton={this.handleClickConfirmButton}
+            />
+            }
+        </Body>
+      </BackgroundColor>
     );
   }
 };
@@ -91,7 +92,18 @@ export default Enter;
 const Body = styled.div`
   width: 100vw;
   height: 100vh;
-  margin: 0;
+  margin: 0 auto;
+  background-color: white;
+
+  @media screen and (min-width: 769px) {
+    width: 944px;
+    background-color: ${props => props.isCorrectRoomNumber ? "white" : "#f2f2f2"};
+  }
+`
+
+const BackgroundColor = styled.div`
+  background-color: #f2f2f2;
+  z-index: 0;
 `
 
 const Logo = styled.div`
@@ -100,43 +112,12 @@ const Logo = styled.div`
   background-image: url(${logoImg});
   background-size: cover;
   position: absolute;
-  top: 26px;
-  left: 24px;
+  top: 32px;
+  left: 16px;
 
   @media screen and (min-width: 769px) {
     width: 80px;
     height: 32px;
-  }
-`
-
-const EntrancePhrase = styled.div`
-  width: 184px;
-  height: 141px;
-  object-fit: contain;
-  background-image: url(${EntrancePhraseImg});
-  background-size: cover;
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  z-index: -1;
-  @media screen and (min-width: 769px) {
-    width: 276px;
-    height: 311px;
-    background-image: url(${BigEntrancePhraseImg});
     left: 32px;
-    bottom: 32px;
   }
 `
-
-const DesignerAndDevelopers = styled.div`
-  @media screen and (min-width: 769px) {
-    width: 161px;
-    height: 89px;
-    background-image: url(${DesignerAndDevelopersImg});
-    background-size: cover;
-    position: absolute;
-    bottom: 32px;
-    right: 32px;
-  }
-`
-
