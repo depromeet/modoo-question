@@ -3,19 +3,19 @@ import styled from '@emotion/styled'
 import likeStar from './likeStar.svg'
 import unlikeStar from './unlikeStar.svg'
 
-function Question( {questionText, likeNum, liked} ) {
+function Question( {content, likeCount, liked} ) {
 
   const star = liked ? likeStar : unlikeStar;
   const ariaLabel = liked ? '질문 좋아하기' : '질문 좋아하지 않기';
 
   return (
     <Wrapper>
-      <Text>{questionText}</Text>
+      <Text>{content}</Text>
       <Likes>
         <LikeButton aria-label={ariaLabel}>
           <img src={star} alt="" aria-hidden="true" />
         </LikeButton>
-        {likeNum}
+        {likeCount}
       </Likes>
     </Wrapper>
   );

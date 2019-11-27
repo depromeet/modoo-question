@@ -1,48 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import SockJsClient from 'react-stomp';
 import QuestionList from '../../components/QuestionList';
+import { connectWebSockets, postQuestion, updateLike, updateUnlike, deleteQuestion } from '../../remotes/websocket';
 
-function Main() {
-  const userId = 12;
-  const seminarRoom = {seminarId: 1234, seminarTitle: '디프만 외부 세미나'};
-
-  const socketUrl = 'http://13.125.252.156:8081/q-rank-websock';
-  const topics = [];
+function Main(userId, seminarRoom) {
 
   const [isConnected, setIsConnected] = useState(false);
+  const [questionList, setQuestionList] = useState(new Map());
+  const [userInput, setUserInput] = useState('');
 
-  // TODO: 인풋 validtation -> userInput.trim().length > 0
+  // TODO: 인풋 validtation -> 
+  const inputChange = (e) => {
+    setUserInput(e.target.value);
+  }
 
+  const postNewQuestion = () => {
+    if (userInput.trim().length > 0) {
+      //postQuestion()
+    }
+  }
+
+
+  // TODO: liked 관리...? (API에는 liked가 포함이 되지 않음...)
   const exampleList = [
-    {text: "질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 80, liked: true},
-    {text: "두 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 52, liked: false},
-    {text: "세 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 2, liked: true},
-  ]
+    {commentId: 1, content: "질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 80, liked: true},
+    {commentId: 2, content: "두 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 52, liked: false},
+    {commentId: 3, content: "세 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 2, liked: true},
+  ];
 
-  const onConnect = () => {
-    setIsConnected(true);
-    console.log('connected');
-  }
+  useEffect(() => {
 
-  const onDisconnect = () => {
-    setIsConnected(false);
-    console.log('disconnected');
-  }
+    // TODO: 백엔드로부터 broadcast 된 질문들 받기
+    if (!isConnected) {
+      connectWebSockets(seminarRoom.seminarId);
+    }
+  });
 
-  const onMessageReceive = (msg, topic) => {
-    console.log(msg + topic);
-  }
-  
+  // TODO: 새 질문 작성시 웹소켓 CALL
+
   return (
     <Wrapper>
-      <SockJsClient 
-        url={socketUrl}
-        topics={topics}
-        onMessage={onMessageReceive}
-        onConnect={onConnect}
-        onDisconnect={onDisconnect}
-      />
       <Background>
         <SeminarTitle>{seminarRoom.seminarTitle}</SeminarTitle>
         <SeminarId>{seminarRoom.seminarId}</SeminarId>
@@ -53,8 +50,8 @@ function Main() {
         </Navigation>
         <QuestionList list={exampleList}/>
         <AskQuestion>
-          <Input />
-          <Button>Send</Button>
+          <Input onChange={inputChange}/>
+          <Button onClick={postNewQuestion}>Send</Button>
         </AskQuestion>
       </PageArea>
     </Wrapper>);
