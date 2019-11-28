@@ -7,7 +7,7 @@ function QuestionList( {list} ) {
   return (
     <Wrapper>
         {list.map(q => (
-            <Question questionText={q.text} likeNum={q.likeNum} liked={q.liked} />
+            <Question key={q.commentId} content={q.content} likeCount={q.likeCount} liked={q.liked} />
         ))}
     </Wrapper>
     
