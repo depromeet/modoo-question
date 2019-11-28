@@ -6,10 +6,9 @@ import { connectWebSockets, postQuestion, updateLike, updateUnlike, deleteQuesti
 function Main(userId, seminarRoom) {
 
   const [isConnected, setIsConnected] = useState(false);
-  const [questionList, setQuestionList] = useState(new Map());
+  const [questionList, setQuestionList] = useState({});
   const [userInput, setUserInput] = useState('');
 
-  // TODO: 인풋 validtation -> 
   const inputChange = (e) => {
     setUserInput(e.target.value);
   }
@@ -33,8 +32,9 @@ function Main(userId, seminarRoom) {
     // TODO: 백엔드로부터 broadcast 된 질문들 받기
     if (!isConnected) {
       connectWebSockets(seminarRoom.seminarId);
+      setIsConnected(true);
     }
-  });
+  }, [isConnected, seminarRoom.seminarId]);
 
   // TODO: 새 질문 작성시 웹소켓 CALL
 
