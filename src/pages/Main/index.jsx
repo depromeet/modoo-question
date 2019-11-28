@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
 import QuestionList from '../../components/QuestionList';
 import { connectWebSockets, postQuestion, updateLike, updateUnlike, deleteQuestion } from '../../remotes/websocket';
+import { UserContext, QuestionContext } from '../../contexts';
 
-function Main(userId, seminarRoom) {
+function Main() {
+
+  // TODO: URL로 접근시 member join 콜하여 userId 업데이트
+  //       URL로 접근시 parameter 값에서 enter seminar 콜하여 seminarRoom 업데이트
+  const { userId, setUserId, seminarRoom } = useContext(UserContext);
+  const questionList = useContext(QuestionContext);
 
   const [isConnected, setIsConnected] = useState(false);
-  const [questionList, setQuestionList] = useState({});
   const [userInput, setUserInput] = useState('');
 
   const inputChange = (e) => {
     setUserInput(e.target.value);
   }
+
+  const receiveBroadcasting = (data) => {
+    console.log(data);
+  };
 
   const postNewQuestion = () => {
     if (userInput.trim().length > 0) {
@@ -19,19 +28,11 @@ function Main(userId, seminarRoom) {
     }
   }
 
-
-  // TODO: liked 관리...? (API에는 liked가 포함이 되지 않음...)
-  const exampleList = [
-    {commentId: 1, content: "질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 80, liked: true},
-    {commentId: 2, content: "두 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 52, liked: false},
-    {commentId: 3, content: "세 번째 질문이 있습니다! 디프만은 어떤 동아리인가요? 구체적으로 어떤 활동을 하나요?", likeNum: 2, liked: true},
-  ];
-
   useEffect(() => {
 
-    // TODO: 백엔드로부터 broadcast 된 질문들 받기
+    // TODO: 백엔드로부터 broadcast 된 질문들 받기 (subscribe -> )
     if (!isConnected) {
-      connectWebSockets(seminarRoom.seminarId);
+      connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
       setIsConnected(true);
     }
   }, [isConnected, seminarRoom.seminarId]);
@@ -48,7 +49,7 @@ function Main(userId, seminarRoom) {
         <Navigation>
 
         </Navigation>
-        <QuestionList list={exampleList}/>
+        <QuestionList list={questionList}/>
         <AskQuestion>
           <Input onChange={inputChange}/>
           <Button onClick={postNewQuestion}>Send</Button>
