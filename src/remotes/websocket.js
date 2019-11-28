@@ -9,7 +9,7 @@ export const SIMPLE_BROKER = '/subscribe';
 
 export let stompClient = null;
 
-export function connectWebSockets(seminarId) {
+export function connectWebSockets(seminarId, callbackFunc) {
   const socket = new SockJS(`${API_ROOT}/${STOMP_ENDPOINT}`);
   stompClient = Stomp.over(socket);
 
@@ -19,6 +19,7 @@ export function connectWebSockets(seminarId) {
       stompClient.subscribe(`${SIMPLE_BROKER}/seminar/${seminarId}`, (res) => {
         const data = JSON.parse(res.body);
         console.log(data);
+        callbackFunc(data);
     })},
     // unsuccessful connection
     (error) => {
