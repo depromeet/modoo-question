@@ -20,6 +20,6 @@ export async function createMember(seminarId) {
 }
 
 export async function enterSeminar(seminarId, userId) {
-  const { data } = await axios.get(`${API_ROOT}/api/seminar/enter/${seminarId}/${memberId}`);
+  const { data } = await axios.get(`${API_ROOT}/api/seminar/enter/${seminarId}/${userId}`);
   return data;
 }
