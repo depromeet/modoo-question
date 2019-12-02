@@ -5,7 +5,7 @@ import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
 import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
 import EntryBox from '../EntryBox';
 
-const EntryView = ({ input1, input2, input3, input4, handleChangeInput, pressedKey, isFullInput, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton }) => {
+const EntryView = ({ input1, input2, input3, input4, handleChangeInput, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton, handleClickCreateRoomButton }) => {
   return (
     <Fragment>
       <EntryBox 
@@ -18,6 +18,7 @@ const EntryView = ({ input1, input2, input3, input4, handleChangeInput, pressedK
         isWrongRoomNumber={isWrongRoomNumber}
         isClickedConfirmButton={isClickedConfirmButton}
         handleClickConfirmButton={handleClickConfirmButton}
+        handleClickCreateRoomButton={handleClickCreateRoomButton}
         />
       <EntrancePhrase />
       <DesignerAndDevelopers />

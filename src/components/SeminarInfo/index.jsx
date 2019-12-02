@@ -42,7 +42,7 @@ const Wrap = styled.div`
 
   @media screen and (min-width: 769px) {
     position: relative;
-    top: 422px;
+    top: 50.23vh;
     left: 32px;
   }  
 `

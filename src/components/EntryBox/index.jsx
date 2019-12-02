@@ -3,7 +3,7 @@ import InputBox from '../InputBox';
 import ConfirmButton from '../ConfirmButton'
 import styled from '@emotion/styled';
 
-const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleChangeInput, handleClickConfirmButton }) => {
+const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleChangeInput, handleClickConfirmButton, handleClickCreateRoomButton }) => {
   const isFullInput = input1.length +
                       input2.length +
                       input3.length + 
@@ -14,7 +14,7 @@ const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumbe
         <CenterBox>
           <FirstRow>
             <EntranceRoom>방 입장하기</EntranceRoom>
-            <CreateRoom>방 만들기</CreateRoom>
+            <CreateRoom onClick={handleClickCreateRoomButton}>방 만들기</CreateRoom>
           </FirstRow>
           <InputBox 
             input1={input1}

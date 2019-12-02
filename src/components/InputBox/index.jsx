@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
+import Store from '../../store';
 
 class InputBox extends Component {
   constructor(props) {
@@ -104,48 +105,49 @@ class InputBox extends Component {
   render() {
     const { input1, input2, input3, input4, } = this.props;
     return (
-      <Inputs>
-        <Input 
-          type="number" 
-          placeholder="0" 
-          className="first-input" 
-          value={input1} 
-          onChange={this.handleMoveFocusInput} 
-          onKeyDown={this.filterNumber} 
-          blink={this.state.isPressedNotNumber.first} 
-          ref={element => this.textInput1 = element}
-        />
-        <Input 
-          type="number" 
-          placeholder="0" 
-          className="second-input" 
-          value={input2} 
-          onChange={this.handleMoveFocusInput} 
-          onKeyDown={this.filterNumber} 
-          blink={this.state.isPressedNotNumber.second} 
-          ref={element => this.textInput2 = element}
-        />
-        <Input 
-          type="number" 
-          placeholder="0" 
-          className="third-input" 
-          value={input3} 
-          onChange={this.handleMoveFocusInput} 
-          onKeyDown={this.filterNumber} 
-          blink={this.state.isPressedNotNumber.third} 
-          ref={element => this.textInput3 = element}
-        />
-        <Input 
-          type="number" 
-          placeholder="0" 
-          className="fourth-input" 
-          value={input4} 
-          onChange={this.handleMoveFocusInput} 
-          onKeyDown={this.filterNumber}
-          blink={this.state.isPressedNotNumber.fourth} 
-          ref={element => this.textInput4 = element}
-        />
-      </Inputs>
+      // context api 적용중이었음
+        <Inputs>
+          <Input 
+            type="number" 
+            placeholder="0" 
+            className="first-input" 
+            value={input1}
+            onChange={this.handleMoveFocusInput} 
+            onKeyDown={this.filterNumber} 
+            blink={this.state.isPressedNotNumber.first} 
+            ref={element => this.textInput1 = element}
+          />
+          <Input 
+            type="number" 
+            placeholder="0" 
+            className="second-input" 
+            value={input2} 
+            onChange={this.handleMoveFocusInput} 
+            onKeyDown={this.filterNumber} 
+            blink={this.state.isPressedNotNumber.second} 
+            ref={element => this.textInput2 = element}
+          />
+          <Input 
+            type="number" 
+            placeholder="0" 
+            className="third-input" 
+            value={input3} 
+            onChange={this.handleMoveFocusInput} 
+            onKeyDown={this.filterNumber} 
+            blink={this.state.isPressedNotNumber.third} 
+            ref={element => this.textInput3 = element}
+          />
+          <Input 
+            type="number" 
+            placeholder="0" 
+            className="fourth-input" 
+            value={input4} 
+            onChange={this.handleMoveFocusInput} 
+            onKeyDown={this.filterNumber}
+            blink={this.state.isPressedNotNumber.fourth} 
+            ref={element => this.textInput4 = element}
+          />
+        </Inputs>
     );
   }
 };
