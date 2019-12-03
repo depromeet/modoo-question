@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import EnterCondition from '../../components/EnterCondition';
+import { SampleProvider } from '../../contexts/sample';
 
 const Enter = () => {
   return (
-    <Background>
-      <EnterCondition />
-    </Background>
+    <SampleProvider>
+      <Background>
+        <EnterCondition />
+      </Background>
+    </SampleProvider>
   );
 };
 
@@ -18,4 +21,3 @@ const Background = styled.div`
   margin: 0 auto;
   background-color: #f2f2f2;
 `
-
