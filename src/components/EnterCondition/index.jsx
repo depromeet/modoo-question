@@ -4,63 +4,15 @@ import EntryView from '../EntryView';
 import SeminarInfo from '../SeminarInfo';
 import logoImg from '../../static/images/33-3@3x.png';
 import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
-import Store from '../../store';
+import { SampleConsumer } from '../../contexts/sample';
 
 class EnterCondition extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      input1: '',
-      input2: '',
-      input3: '',
-      input4: '',
-      isWrongRoomNumber: false, // 방 번호가 잘못되었는가?
-      isClickedConfirmButton: false, // 확인 버튼이 클릭 되었는가?
       pressedKey: '',
-      isClickedCreateRoomButton: false, // 방 만들기 버튼을 눌렀는가?
       userSeminarName: '',
-    }
-  }
-
-  handleClickConfirmButton = () => {
-    this.setState({
-      isClickedConfirmButton: true
-    })
-  }
-
-  handleClickCreateRoomButton = () => {
-    this.setState({
-      isClickedCreateRoomButton: true
-    })
-  }
-
-  handleChangeInput = (event) => {
-    // 클릭 초기화
-    this.setState({
-      isClickedConfirmButton: false
-    });
-    const changedText = event.target.value;
-    const isLessTwoDigits = () => {
-      return event.target.value.length < 2;
-    }
-    if (isLessTwoDigits()) {
-      switch (event.target.className.split(' ')[0]) { // event.target.className: first-input css-kj2lr3
-        case 'first-input':
-          this.setState({ input1: changedText });
-          break;
-        case 'second-input':
-          this.setState({ input2: changedText });
-          break;
-        case 'third-input':
-          this.setState({ input3: changedText });
-          break;
-        case 'fourth-input':
-          this.setState({ input4: changedText });
-          break;
-        default:
-          break;
-      }
     }
   }
 
@@ -71,64 +23,67 @@ class EnterCondition extends Component {
   }
 
   render() {
-    const { input1, input2, input3, input4, 
-            isWrongRoomNumber, isClickedConfirmButton, pressedKey, isClickedCreateRoomButton, userSeminarName } = this.state;
-    const isFullInput = input1.length +
-                      input2.length +
-                      input3.length + 
-                      input4.length === 4;
-    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && isClickedConfirmButton;
+    const { pressedKey, userSeminarName } = this.state;
+    const { value, setValue } = this.props;
+    const isFullInput = value.roomNumber.first.length +
+                        value.roomNumber.second.length +
+                        value.roomNumber.third.length +
+                        value.roomNumber.fourth.length === 4;
+    const isWrongRoomNumber = value.isWrongRoomNumber;
+    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && this.props.value.isClickedConfirmButton;
+    
     if (isCorrectRoomNumber) {
       return (
-          <Store.Provider value={input1}>
-            <Wrap>
-              <Logo />
-              <SeminarInfo />
-            </Wrap>
-          </Store.Provider>
+          <Wrap>
+            <Logo />
+            <SeminarInfo />
+          </Wrap>
         );
     }
-    else if (isClickedCreateRoomButton) {
+    else if (this.props.value.isClickedCreateRoomButton) {
       return (
-          <Store.Provider>
-            <Wrap>
-              <Logo />
-              <WrapInput>
-              <SeminarTitleForm>세미나 제목</SeminarTitleForm>
-              <Input value={userSeminarName} onChange={this.handleUserSeminarName} rows="2" placeholder="세미나 이름은 무엇인가요?" maxLength="24" />
-                <BorderBottom />
-              </WrapInput>
-              <ReverseTriangle />
-            </Wrap>
-          </Store.Provider>
+          <Wrap>
+            <Logo />
+            <WrapInput>
+            <SeminarTitleForm>세미나 제목</SeminarTitleForm>
+            <Input 
+              onChange={this.handleUserSeminarName} 
+              value={userSeminarName} 
+              placeholder="세미나 이름은 무엇인가요?" 
+              maxLength="32" 
+            />
+            <BorderBottom />
+            </WrapInput>
+            <ReverseTriangle />
+          </Wrap>
       );
     }
     else {
       return (
-          <Store.Provider>
-            <Fragment>
-              <EntryPageLogo />
-              <EntryView
-                input1={input1}
-                input2={input2}
-                input3={input3}
-                input4={input4}
-                handleChangeInput={this.handleChangeInput}
-                pressedKey={pressedKey}
-                isWrongRoomNumber={isWrongRoomNumber}
-                isClickedConfirmButton={isClickedConfirmButton}
-                handleClickConfirmButton={this.handleClickConfirmButton}
-                isClickedCreateRoomButton={isClickedCreateRoomButton}
-                handleClickCreateRoomButton={this.handleClickCreateRoomButton}
-              />
-            </Fragment>
-          </Store.Provider>
+          <Fragment>
+            <EntryPageLogo />
+            <EntryView
+              handleChangeInput={this.handleChangeInput}
+              pressedKey={pressedKey}
+            />
+          </Fragment>
       );
     }
   }
 }
 
-export default EnterCondition;
+export const EnterConditionContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <EnterCondition 
+          value={state}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
 
 const ReverseTriangle = styled.div`
   background-image: url(${reverseTriangle});

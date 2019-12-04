@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import EnterCondition from '../../components/EnterCondition';
+import EnterCondition, { EnterConditionContainer } from '../../components/EnterCondition';
 import { SampleProvider } from '../../contexts/sample';
 
 const Enter = () => {
   return (
     <SampleProvider>
       <Background>
-        <EnterCondition />
+        <EnterConditionContainer />
       </Background>
     </SampleProvider>
   );

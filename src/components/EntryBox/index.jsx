@@ -1,42 +1,38 @@
 import React from 'react';
-import InputBox from '../InputBox';
-import ConfirmButton from '../ConfirmButton'
 import styled from '@emotion/styled';
+import { InputBoxContainer } from '../InputBox';
+import { ConfirmButtonContainer } from '../ConfirmButton'
+import { SampleConsumer } from '../../contexts/sample';
 
-const EntryBox = ({ input1, input2, input3, input4, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleChangeInput, handleClickConfirmButton, handleClickCreateRoomButton }) => {
-  const isFullInput = input1.length +
-                      input2.length +
-                      input3.length + 
-                      input4.length === 4;
+const EntryBox = ({ pressedKey, setValue }) => {
   return (
     <Contents>
       <Content>
         <CenterBox>
           <FirstRow>
             <EntranceRoom>방 입장하기</EntranceRoom>
-            <CreateRoom onClick={handleClickCreateRoomButton}>방 만들기</CreateRoom>
+            <CreateRoom onClick={setValue.handleIsClickedCreateRoomButton}>방 만들기</CreateRoom>
           </FirstRow>
-          <InputBox 
-            input1={input1}
-            input2={input2}
-            input3={input3}
-            input4={input4}
-            handleChangeInput={handleChangeInput}
-            pressedKey={pressedKey}
-          />
-          <ConfirmButton 
-            isFullInput={isFullInput}
-            isWrongRoomNumber={isWrongRoomNumber}
-            isClickedConfirmButton={isClickedConfirmButton}
-            handleClickConfirmButton={handleClickConfirmButton}
-          />
+          <InputBoxContainer pressedKey={pressedKey} />
+          <ConfirmButtonContainer />
         </CenterBox>
       </Content>
     </Contents>
   )
 };
 
-export default EntryBox;
+export const EntryBoxContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <EntryBox 
+          value={state}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
 
 const Contents = styled.div`
   display: flex;

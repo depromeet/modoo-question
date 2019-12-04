@@ -3,23 +3,14 @@ import styled from '@emotion/styled';
 import DesignerAndDevelopersImg from '../../static/images/11615@3x.png';
 import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
 import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
-import EntryBox from '../EntryBox';
+import EntryBox, { EntryBoxContainer } from '../EntryBox';
 
-const EntryView = ({ input1, input2, input3, input4, handleChangeInput, pressedKey, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton, handleClickCreateRoomButton }) => {
+const EntryView = ({ pressedKey }) => {
   return (
     <Fragment>
-      <EntryBox 
-        input1={input1}
-        input2={input2}
-        input3={input3}
-        input4={input4}
-        handleChangeInput={handleChangeInput}
+      <EntryBoxContainer
         pressedKey={pressedKey}
-        isWrongRoomNumber={isWrongRoomNumber}
-        isClickedConfirmButton={isClickedConfirmButton}
-        handleClickConfirmButton={handleClickConfirmButton}
-        handleClickCreateRoomButton={handleClickCreateRoomButton}
-        />
+      />
       <EntrancePhrase />
       <DesignerAndDevelopers />
     </Fragment>

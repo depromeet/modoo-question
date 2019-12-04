@@ -1,31 +1,68 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import Store from '../../store';
+import { SampleConsumer } from '../../contexts/sample';
 
 class InputBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPressedNotNumber: { first: false, 
-                            second: false, 
-                            third: false, 
-                            fourth: false }, // 숫자가 아닌 키를 눌렀는가?
+      // 방 번호
+      roomNumber : { first: '', second: '', third: '', fourth: '' },
+
+       // 숫자가 아닌 키를 눌렀는가?
+      isPressedNotNumber: { first: false, second: false, third: false, fourth: false },
     }
+  }
+
+  handleChangeInput = (event) => {
+    // 클릭 초기화
+    this.props.setValue.handleIsClickedConfirmButtonToFalse();
+
+    const changedText = event.target.value;
+    const isLessTwoDigits = () => {
+      return event.target.value.length < 2;
+    }
+    if (isLessTwoDigits()) {
+      switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
+        case 'first':
+          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, first: changedText } }));
+          break;
+        case 'second':
+          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, second: changedText } }));
+          break;
+        case 'third':
+          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, third: changedText } }));
+          break;
+        case 'fourth':
+          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, fourth: changedText } }));
+          break;
+        default:
+          break;
+        }
+      }
+    
+    setTimeout(() => {
+      this.props.setValue.handleChangeInput(this.state.roomNumber);
+    }, 1);
+    // 문제점: roomNumber state가 SampleProvider에서 곧바로 변경되지 않는다.
+    // setState가 비동기라서 그런 것 같음.
+    // setTimeout으로 임시로 설정.
+    // 빨리 고쳐야 함...
   }
   
   handleMoveFocusInput = (event) => {
-    this.props.handleChangeInput(event);
+    this.handleChangeInput(event);
+
     const changedText = event.target.value;
-    const isDelete = () => {
-      return changedText === '';
-    }
-    switch (event.target.className.split(' ')[0]) { // event.target.className: first-input css-kj2lr3
-      case 'first-input':
+    const isDelete = () => (changedText === '');
+
+    switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
+      case 'first':
         if (!isDelete()) {
           this.textInput2.focus();
         }
         break;
-      case 'second-input':
+      case 'second':
         if (isDelete()) {
           this.textInput1.focus();
         }
@@ -33,7 +70,7 @@ class InputBox extends Component {
           this.textInput3.focus();
         }
         break;
-      case 'third-input':
+      case 'third':
         if (isDelete()) {
           this.textInput2.focus();
         }
@@ -41,7 +78,7 @@ class InputBox extends Component {
           this.textInput4.focus();
         }
         break;
-      case 'fourth-input':
+      case 'fourth':
         if (isDelete()) {
           this.textInput3.focus();
         }
@@ -59,8 +96,8 @@ class InputBox extends Component {
 
     // 0 ~ 9, Backspace 만 입력 허용.
     if (!isNumber(event)) {
-      switch (event.target.className.split(' ')[0]) { // event.target.className: first-input css-kj2lr3
-        case 'first-input':
+      switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
+        case 'first':
           this.setState(prevState => ({
             isPressedNotNumber : {
               ...prevState.first,
@@ -68,7 +105,7 @@ class InputBox extends Component {
             }
           }));
           break;
-        case 'second-input':
+        case 'second':
           this.setState(prevState => ({
             isPressedNotNumber : {
               ...prevState.second,
@@ -76,7 +113,7 @@ class InputBox extends Component {
             }
           }));
           break;
-        case 'third-input':
+        case 'third':
           this.setState(prevState => ({
             isPressedNotNumber : {
               ...prevState.third,
@@ -84,7 +121,7 @@ class InputBox extends Component {
             }
           }));
           break;
-        case 'fourth-input':
+        case 'fourth':
           this.setState(prevState => ({
             isPressedNotNumber : {
               ...prevState.fourth,
@@ -103,15 +140,14 @@ class InputBox extends Component {
   }
   
   render() {
-    const { input1, input2, input3, input4, } = this.props;
+    const { first, second, third, fourth, } = this.props.value;
     return (
-      // context api 적용중이었음
         <Inputs>
           <Input 
             type="number" 
             placeholder="0" 
-            className="first-input" 
-            value={input1}
+            className="first" 
+            value={first}
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.first} 
@@ -120,8 +156,8 @@ class InputBox extends Component {
           <Input 
             type="number" 
             placeholder="0" 
-            className="second-input" 
-            value={input2} 
+            className="second" 
+            value={second} 
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.second} 
@@ -130,8 +166,8 @@ class InputBox extends Component {
           <Input 
             type="number" 
             placeholder="0" 
-            className="third-input" 
-            value={input3} 
+            className="third" 
+            value={third}
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.third} 
@@ -140,8 +176,8 @@ class InputBox extends Component {
           <Input 
             type="number" 
             placeholder="0" 
-            className="fourth-input" 
-            value={input4} 
+            className="fourth" 
+            value={fourth} 
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber}
             blink={this.state.isPressedNotNumber.fourth} 
@@ -152,7 +188,18 @@ class InputBox extends Component {
   }
 };
 
-export default InputBox;
+export const InputBoxContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <InputBox 
+          value={state.roomNumber}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
 
 const Inputs = styled.div`
   width: 267px;
