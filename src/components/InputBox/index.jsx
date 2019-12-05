@@ -138,6 +138,23 @@ class InputBox extends Component {
       event.preventDefault();
     }
   }
+
+  // 방번호 맨 앞에서부터 입력하도록 고정
+  handleInputFocus = () => {
+    const { first, second, third, } = this.props.value;
+    const isEmpty = (value) => {
+      return value === '';
+    }
+    if (isEmpty(first)) {
+      this.textInput1.focus();
+    }
+    else if (isEmpty(second)) {
+      this.textInput2.focus();
+    }
+    else if (isEmpty(third)) {
+      this.textInput3.focus();
+    }
+  }
   
   render() {
     const { first, second, third, fourth, } = this.props.value;
@@ -152,6 +169,7 @@ class InputBox extends Component {
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.first} 
             ref={element => this.textInput1 = element}
+            onClick={this.handleInputFocus}
           />
           <Input 
             type="number" 
@@ -162,6 +180,7 @@ class InputBox extends Component {
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.second} 
             ref={element => this.textInput2 = element}
+            onClick={this.handleInputFocus}
           />
           <Input 
             type="number" 
@@ -172,6 +191,7 @@ class InputBox extends Component {
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.third} 
             ref={element => this.textInput3 = element}
+            onClick={this.handleInputFocus}
           />
           <Input 
             type="number" 
@@ -182,6 +202,7 @@ class InputBox extends Component {
             onKeyDown={this.filterNumber}
             blink={this.state.isPressedNotNumber.fourth} 
             ref={element => this.textInput4 = element}
+            onClick={this.handleInputFocus}
           />
         </Inputs>
     );
