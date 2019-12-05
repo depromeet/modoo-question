@@ -99,34 +99,22 @@ class InputBox extends Component {
       switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
         case 'first':
           this.setState(prevState => ({
-            isPressedNotNumber : {
-              ...prevState.first,
-              first: true
-            }
+            isPressedNotNumber : { ...prevState.first, first: true }
           }));
           break;
         case 'second':
           this.setState(prevState => ({
-            isPressedNotNumber : {
-              ...prevState.second,
-              second: true
-            }
+            isPressedNotNumber : { ...prevState.second, second: true }
           }));
           break;
         case 'third':
           this.setState(prevState => ({
-            isPressedNotNumber : {
-              ...prevState.third,
-              third: true
-            }
+            isPressedNotNumber : { ...prevState.third, third: true }
           }));
           break;
         case 'fourth':
           this.setState(prevState => ({
-            isPressedNotNumber : {
-              ...prevState.fourth,
-              fourth: true
-            }
+            isPressedNotNumber : { ...prevState.fourth, fourth: true }
           }));
           break;
         default:
@@ -205,7 +193,7 @@ class InputBox extends Component {
             onClick={this.handleInputFocus}
           />
         </Inputs>
-    );
+      );
   }
 };
 

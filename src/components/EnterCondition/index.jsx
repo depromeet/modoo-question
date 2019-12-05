@@ -61,7 +61,7 @@ class EnterCondition extends Component {
       return (
           <Fragment>
             <EntryPageLogo />
-            <EntryView handleChangeInput={this.handleChangeInput} />
+            <EntryView />
           </Fragment>
       );
     }

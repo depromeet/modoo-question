@@ -10,7 +10,18 @@ const EntryView = () => {
     <Fragment>
       <EntryBoxContainer />
       <EntrancePhrase />
-      <DesignerAndDevelopers />
+      <DesignerAndDevelopers>
+        <Column>
+          <Row>Designer</Row>
+          <Row>Developers</Row>
+        </Column>
+        <Column>
+          <Name>Kyeongrae, Noh</Name>
+          <Name>Jiwoon, Kim</Name>
+          <Name>Kyuseock, Ma</Name>
+          <Name>Yongseong, Jeon</Name>
+        </Column>
+      </DesignerAndDevelopers>
     </Fragment>
   )
 }
@@ -38,13 +49,40 @@ const EntrancePhrase = styled.div`
 `
 
 const DesignerAndDevelopers = styled.div`
+  display: none;
+  
   @media screen and (min-width: 769px) {
-    width: 161px;
-    height: 89px;
-    background-image: url(${DesignerAndDevelopersImg});
-    background-size: cover;
-    position: absolute;
-    bottom: 32px;
-    right: 32px;
-  }
+      width: 161px;
+      height: 89px;
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      display: flex;
+    }
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Row = styled.div`
+  font-family: Noto Sans;
+  font-size: 12px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 2;
+  color: rgba(0, 0, 0, 0.16);
+`
+
+const Name = styled.div`
+  font-family: Noto Sans;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 2;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.16);
+  position: relative;
+  left: 20px;
 `
