@@ -5,12 +5,10 @@ import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
 import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
 import EntryBox, { EntryBoxContainer } from '../EntryBox';
 
-const EntryView = ({ pressedKey }) => {
+const EntryView = () => {
   return (
     <Fragment>
-      <EntryBoxContainer
-        pressedKey={pressedKey}
-      />
+      <EntryBoxContainer />
       <EntrancePhrase />
       <DesignerAndDevelopers />
     </Fragment>

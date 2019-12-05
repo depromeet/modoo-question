@@ -11,7 +11,6 @@ class EnterCondition extends Component {
     super(props);
     
     this.state = {
-      pressedKey: '',
       userSeminarName: '',
     }
   }
@@ -23,7 +22,7 @@ class EnterCondition extends Component {
   }
 
   render() {
-    const { pressedKey, userSeminarName } = this.state;
+    const { userSeminarName } = this.state;
     const { value, setValue } = this.props;
     const isFullInput = value.roomNumber.first.length +
                         value.roomNumber.second.length +
@@ -62,10 +61,7 @@ class EnterCondition extends Component {
       return (
           <Fragment>
             <EntryPageLogo />
-            <EntryView
-              handleChangeInput={this.handleChangeInput}
-              pressedKey={pressedKey}
-            />
+            <EntryView handleChangeInput={this.handleChangeInput} />
           </Fragment>
       );
     }

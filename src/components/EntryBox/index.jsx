@@ -4,7 +4,7 @@ import { InputBoxContainer } from '../InputBox';
 import { ConfirmButtonContainer } from '../ConfirmButton'
 import { SampleConsumer } from '../../contexts/sample';
 
-const EntryBox = ({ pressedKey, setValue }) => {
+const EntryBox = ({ setValue }) => {
   return (
     <Contents>
       <Content>
@@ -13,7 +13,7 @@ const EntryBox = ({ pressedKey, setValue }) => {
             <EntranceRoom>방 입장하기</EntranceRoom>
             <CreateRoom onClick={setValue.handleIsClickedCreateRoomButton}>방 만들기</CreateRoom>
           </FirstRow>
-          <InputBoxContainer pressedKey={pressedKey} />
+          <InputBoxContainer />
           <ConfirmButtonContainer />
         </CenterBox>
       </Content>
