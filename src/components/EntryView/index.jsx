@@ -9,6 +9,7 @@ const EntryView = () => {
   return (
     <Fragment>
       <EntryBoxContainer />
+      {/* EntrancePhrase: 입장하려는 방의 번호를 입력해주세요 */}
       <EntrancePhrase />
       <DesignerAndDevelopers>
         <Column>
@@ -50,7 +51,7 @@ const EntrancePhrase = styled.div`
 
 const DesignerAndDevelopers = styled.div`
   display: none;
-  
+
   @media screen and (min-width: 769px) {
       width: 161px;
       height: 89px;
