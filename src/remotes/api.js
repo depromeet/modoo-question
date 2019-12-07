@@ -2,16 +2,14 @@ import * as axios from 'axios';
 
 export const API_ROOT = 'http://13.125.252.156:8081';
 
-export async function createSeminarRoom(fullUrl, title, password) {
+export async function createSeminarRoom(seminarRoomDto, speakerList) {
   const { data } = await axios.post(`${API_ROOT}/api/seminar`, {
-    "fullURL": fullUrl,
-    "seminarPassword": password,
-    "seminarTitle": title
+    "seminarRoomDto": seminarRoomDto,
+    "speakerList": speakerList,
   });
-
   return data;
 }
-  
+
 export async function createMember(seminarId) {
   const { data } = await axios.post(`${API_ROOT}/api/member/join`, {
     "seminarId": seminarId

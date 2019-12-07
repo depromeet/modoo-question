@@ -6,17 +6,23 @@ import logoImg from '../../static/images/33-3@3x.png';
 import { createSeminarRoom } from '../../remotes/api';
 
 // 새 세미나 방 생성하는 함수 호출
-  /* createNewRoom(fullUrl, title, password).then(res => {
+  /* createNewRoom(seminarRoomDto, speakerList).then(res => {
       console.log(res);
+
+      TODO: Context 모두 업데이트 필요
+      - UserContext: setUserId, setSeminarRoom 사용하기
+      - SpeakerContext: setSpeakers 사용하기
+      - QuestionContext: setQuestions 사용하기 (object 형태로 매핑해야 함)
+      - RankingContext: setRankings 사용하기 (object 형태로 매핑해야 함)
     });
   */
-async function createNewRoom(fullUrl, title, password) {
+async function createNewRoom(seminarRoomDto, speakerList) {
   try {
-    return await createSeminarRoom(fullUrl, title, password);
+    return await createSeminarRoom(seminarRoomDto, speakerList);
   } catch {
     return null;
   }
-}
+};
 
 class Enter extends Component {
   constructor(props) {
