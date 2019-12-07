@@ -1,14 +1,17 @@
 import { createContext } from 'react';
 
 export const SpeakerContext = createContext({
-  // TODO: speaker 자료구조 구조 넣기
+  // speakers: targetList 형태
   speakers: [
     {
-      targetName: "",
-      target
-    }
+      speakerId: 0,
+      speakerName: "",
+      speakerTopic: "",
+      organization: "",
+    },
   ],
   setSpeakers: () => {},
+  addNewSpeaker: () => {},
 });
 
 export const SpeakerProvider = SpeakerContext.Provider;

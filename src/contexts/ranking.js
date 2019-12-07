@@ -1,17 +1,18 @@
 import { createContext } from 'react';
 
 export const RankingContext = createContext({
-  // ranking = { speaker1: [], speaker2: [], ...}
+  // rankings[speakerId] = commentList 형태
   rankings: {
-    'speaker': [
+    speakerId: [
       {
         commentId: 0,
         context: "",
         likeCount: 0,
-      }
+      },
     ]
   },
   setRankings: () => {},
+  updateRankingsOfSpeaker: () => {},
 });
 
 export const RankingProvider = RankingContext.Provider;

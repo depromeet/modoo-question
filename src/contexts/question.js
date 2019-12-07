@@ -1,8 +1,9 @@
 import { createContext } from 'react';
 
-export const QuestionContext = {
+export const QuestionContext = createContext({
+  // questions[speakerId] = commentList
   questions: {
-    'speaker': [
+    speakerId: [
       {
         commentId: 0,
         context: "",
@@ -11,7 +12,10 @@ export const QuestionContext = {
     ],
   },
   setQuestions: () => {},
-}
+  addNewQuestion: () => {},
+  deleteQuestion: () => {},
+  updateLikeCount: () => {},
+});
 
 export const QuestionProvider = QuestionContext.Provider;
 export const QuestionConsumer = QuestionContext.Consumer;
