@@ -5,29 +5,20 @@ import SeminarInfo from '../../components/SeminarInfo';
 import logoImg from '../../static/images/33-3@3x.png';
 import { createSeminarRoom } from '../../remotes/api';
 
-// 새 세미나 방 생성하는 함수 호출
-  /* createNewRoom(seminarRoomDto, speakerList).then(res => {
-      console.log(res);
-
-      TODO: Context 모두 업데이트 필요
+/*  새 세미나 방 생성하는 함수 호출
+    createSeminarRoom(seminarRoomDto, speakerList).then(res => {
+      TODO: if (res !=== null) Context 모두 업데이트
       - UserContext: setUserId, setSeminarRoom 사용하기
       - SpeakerContext: setSpeakers 사용하기
       - QuestionContext: setQuestions 사용하기 (object 형태로 매핑해야 함)
       - RankingContext: setRankings 사용하기 (object 형태로 매핑해야 함)
     });
-  */
-async function createNewRoom(seminarRoomDto, speakerList) {
-  try {
-    return await createSeminarRoom(seminarRoomDto, speakerList);
-  } catch {
-    return null;
-  }
-};
+*/
 
 class Enter extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       input1: '',
       input2: '',
@@ -73,20 +64,21 @@ class Enter extends Component {
       }
     }
   }
- 
+
   render() {
-    const { input1, input2, input3, input4, 
-            isWrongRoomNumber, isClickedConfirmButton, pressedKey } = this.state;
+    const { input1, input2, input3, input4,
+      isWrongRoomNumber, isClickedConfirmButton, pressedKey } = this.state;
     const isFullInput = input1.length +
-                        input2.length +
-                        input3.length + 
-                        input4.length === 4;
+      input2.length +
+      input3.length +
+      input4.length === 4;
     const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && isClickedConfirmButton;
+
     return (
       <BackgroundColor>
         <Body isCorrectRoomNumber={isCorrectRoomNumber}>
-            <Logo />
-            {isCorrectRoomNumber ? 
+          <Logo />
+          {isCorrectRoomNumber ?
             <SeminarInfo />
             :
             <EntryView
@@ -100,7 +92,7 @@ class Enter extends Component {
               isClickedConfirmButton={isClickedConfirmButton}
               handleClickConfirmButton={this.handleClickConfirmButton}
             />
-            }
+          }
         </Body>
       </BackgroundColor>
     );
