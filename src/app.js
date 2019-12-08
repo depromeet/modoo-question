@@ -8,32 +8,32 @@ export default function App() {
   
   // Default Contexts 정의
   // TODO: 예시 빼고 INITAL FORM으로 바꾸기
-  const [id, setId] = useState(/*0*/16);
+  const [id, setId] = useState(/*0*/41);
   const [room, setRoom] = useState({
     /*
     seminarId: null,
     seminarTitle: null,
     */
-    seminarId: 1234,
+    seminarId: 39,
     seminarTitle: "디프만 외부 세미나",
   });
 
   const [speakers, setSpeakers] = useState(/*[]*/
     [
       {
-        speakerId: 1,
+        speakerId: 41,
         speakerName: '디프마니',
         speakerTopic: '디프만의 시작',
         organization: '디프만',
       },
       {
-        speakerId: 2,
+        speakerId: 42,
         speakerName: '라이언',
         speakerTopic: '백수의 왕이 되는 방법',
         organization: 'Pride Land',
       },
       {
-        speakerId: 3,
+        speakerId: 43,
         speakerName: '니니즈',
         speakerTopic: '인기 이모티콘이 되기까지의 여정',
         organization: '카카오',
