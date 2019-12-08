@@ -8,10 +8,10 @@ function Main() {
 
   // TODO: URL로 접근시 member join 콜하여 userId 업데이트
   //       URL로 접근시 parameter 값에서 enter seminar 콜하여 seminarRoom 업데이트
-  const { userId, setUserId, seminarRoom } = useContext(UserContext);
-  const { speakers } = useContext(SpeakerContext);
-  const { questions } = useContext(QuestionContext);
-  const { rankings } = useContext(RankingContext);
+  const { userId, setUserId, seminarRoom, setSeminarRoom } = useContext(UserContext);
+  const { speakers, setSpeakers } = useContext(SpeakerContext);
+  const { questions, addNewQuestion, updateLikeCount, deleteQuestion } = useContext(QuestionContext);
+  const { rankings, updateRankingsOfSpeaker  } = useContext(RankingContext);
 
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [currentSpeaker, setCurrentSpeaker] = useState('');
@@ -19,13 +19,10 @@ function Main() {
 
   useEffect(() => {
     if (!isSocketConnected) {
-      connectWebSockets(seminarRoom.seminarId);
+      // TODO: async-await 형식으로 바꾸기 (connect 성공이면 -> setIsSocketConnected)
+      connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
       setIsSocketConnected(true);
     }
-    // TODO: 백엔드로부터 broadcast 된 질문들 받기 (subscribe -> )
-    //       websocket.js에서 바로 question, ranking CONTEXT 업데이트?
-    //       -> CONTEXT 업데이트 시 RE-RENDERING하게끔 하기?
-    //       -> 그러면 receiveBroadcasting 메소드를 아예 websocket.js로 옮겨서 사용하면 될 듯!
   }, [isSocketConnected, seminarRoom.seminarId]);
 
   const inputChange = (e) => {
@@ -33,7 +30,7 @@ function Main() {
   };
 
   // TODO: 새 질문 작성시 웹소켓 CALL
-  const sendNewQuestion = () => {
+  const postNewQuestion = () => {
     if (userInput.trim().length > 0) {
       postQuestion(userInput);
     }
@@ -42,11 +39,20 @@ function Main() {
   // TODO: <Question /> 에서 구현?
   const likeQuestion = (question) => {
     updateLike(question);
-  }
+  };
 
   const unlikeQuestion = (question) => {
     updateUnlike(question);
-  }
+  };
+
+  const deleteExistingQuestion = (question) => {
+
+  };
+
+  const receiveBroadcasting = (data) => {
+    console.log(data.type);
+    // type에 따라 context 업데이트하기
+  };
 
   return (
     <Wrapper>
@@ -62,8 +68,8 @@ function Main() {
         <AskQuestion>
           <Input onChange={inputChange}/>
           {/* TODO: 가로 길이에 따라 조건부 렌더링 */}
-          {1 === 1 ? <Button onClick={sendNewQuestion}>Send</Button>
-          : <MobileButton onClick={sendNewQuestion}>
+          {1 === 1 ? <Button onClick={postNewQuestion}>Send</Button>
+          : <MobileButton onClick={postNewQuestion}>
             </MobileButton>}
         </AskQuestion>
       </PageArea>
