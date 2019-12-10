@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import EnterCondition from '../../components/EnterCondition';
 import { createSeminarRoom } from '../../remotes/api';
+import { EnterConditionContainer } from '../../components/EnterCondition';
+import { SampleProvider } from '../../contexts/sample';
 
 // 새 세미나 방 생성하는 함수 호출
 // createNewRoom(fullUrl, title, password).then(res => {
@@ -19,17 +20,10 @@ async function createNewRoom(fullUrl, title, password) {
 
 const Enter = () => {
   return (
-    <Background>
-      <EnterCondition />
-    </Background>
+    <SampleProvider>
+      <EnterConditionContainer />
+    </SampleProvider>
   );
 };
 
 export default Enter;
-
-const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
-  margin: 0 auto;
-  background-color: #f2f2f2;
-`

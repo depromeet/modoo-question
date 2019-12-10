@@ -1,16 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from '@emotion/styled';
+import { SampleConsumer } from '../../contexts/sample';
 
-const ConfirmButton = ({ isFullInput, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton }) => {
-  return (
-    <ThirdRow>
-      {isWrongRoomNumber && isFullInput && isClickedConfirmButton ? <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber> : <div />}
-      <Confirm onClick={handleClickConfirmButton} isFullInput = {isFullInput}>확인</Confirm>
-    </ThirdRow>
-  )
+class ConfirmButton extends Component {
+  render() {
+    const { first, second, third, fourth } = this.props.value.roomNumber;
+    const { isWrongRoomNumber, isClickedConfirmButton } = this.props.value;
+    const isFullInput = first.length + 
+                        second.length + 
+                        third.length + 
+                        fourth.length === 4;
+    const displayErrorOfRoomNumber = isWrongRoomNumber && isFullInput && isClickedConfirmButton;
+    return (
+      <ThirdRow>
+        {displayErrorOfRoomNumber ? 
+        <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber>
+        :
+        null}
+        <Confirm 
+          onClick={this.props.setValue.handleIsClickedConfirmButton} 
+          isFullInput={isFullInput}>
+          확인
+        </Confirm>
+      </ThirdRow>
+    )
+  }
 }
 
-export default ConfirmButton;
+export const ConfirmButtonContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <ConfirmButton
+          value={state}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
+
+export default ConfirmButtonContainer;
 
 const ThirdRow = styled.div`
   display: flex;
