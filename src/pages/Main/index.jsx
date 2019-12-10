@@ -1,43 +1,58 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
-import QuestionList from '../../components/QuestionList';
 import { connectWebSockets, postQuestion, updateLike, updateUnlike, deleteQuestion } from '../../remotes/websocket';
-import { UserContext, QuestionContext } from '../../contexts';
+import { UserContext, SpeakerContext, QuestionContext, RankingContext } from '../../contexts';
+import QuestionList from '../../components/QuestionList';
 
 function Main() {
 
   // TODO: URL로 접근시 member join 콜하여 userId 업데이트
   //       URL로 접근시 parameter 값에서 enter seminar 콜하여 seminarRoom 업데이트
-  const { userId, setUserId, seminarRoom } = useContext(UserContext);
-  const questionList = useContext(QuestionContext);
+  const { userId, setUserId, seminarRoom, setSeminarRoom } = useContext(UserContext);
+  const { speakers, setSpeakers } = useContext(SpeakerContext);
+  const { questions, addNewQuestion, updateLikeCount, deleteQuestion } = useContext(QuestionContext);
+  const { rankings, updateRankingsOfSpeaker  } = useContext(RankingContext);
 
-  const [isConnected, setIsConnected] = useState(false);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
+  const [currentSpeaker, setCurrentSpeaker] = useState('');
   const [userInput, setUserInput] = useState('');
+
+  useEffect(() => {
+    if (!isSocketConnected) {
+      // TODO: async-await 형식으로 바꾸기 (connect 성공이면 -> setIsSocketConnected)
+      connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
+      setIsSocketConnected(true);
+    }
+  }, [isSocketConnected, seminarRoom.seminarId]);
 
   const inputChange = (e) => {
     setUserInput(e.target.value);
-  }
-
-  const receiveBroadcasting = (data) => {
-    console.log(data);
   };
 
+  // TODO: 새 질문 작성시 웹소켓 CALL
   const postNewQuestion = () => {
     if (userInput.trim().length > 0) {
-      //postQuestion()
+      postQuestion(userInput);
     }
-  }
+  };
 
-  useEffect(() => {
+  // TODO: <Question /> 에서 구현?
+  const likeQuestion = (question) => {
+    updateLike(question);
+  };
 
-    // TODO: 백엔드로부터 broadcast 된 질문들 받기 (subscribe -> )
-    if (!isConnected) {
-      connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
-      setIsConnected(true);
-    }
-  }, [isConnected, seminarRoom.seminarId]);
+  const unlikeQuestion = (question) => {
+    updateUnlike(question);
+  };
 
-  // TODO: 새 질문 작성시 웹소켓 CALL
+  const deleteExistingQuestion = (question) => {
+
+  };
+
+  const receiveBroadcasting = (data) => {
+    console.log(data.type);
+    // type에 따라 context 업데이트하기
+  };
 
   return (
     <Wrapper>
@@ -49,10 +64,13 @@ function Main() {
         <Navigation>
 
         </Navigation>
-        <QuestionList list={questionList}/>
+        <QuestionList list={questions}/>
         <AskQuestion>
           <Input onChange={inputChange}/>
-          <Button onClick={postNewQuestion}>Send</Button>
+          {/* TODO: 가로 길이에 따라 조건부 렌더링 */}
+          {1 === 1 ? <Button onClick={postNewQuestion}>Send</Button>
+          : <MobileButton onClick={postNewQuestion}>
+            </MobileButton>}
         </AskQuestion>
       </PageArea>
     </Wrapper>);
@@ -80,9 +98,10 @@ const Background = styled.div`
 `;
 
 const SeminarTitle = styled.div`
-  width: 207px;
+  width: 300px;
   height: 100%;
   font-size: 48px;
+  font-weight: 50;
   line-height: 1.67;
   overflow-y: hidden;
 `;
@@ -90,6 +109,7 @@ const SeminarTitle = styled.div`
 const SeminarId = styled.div`
   width: 183px;
   height: 100px;
+  font-weight: 30;
   align-self: flex-end;
   font-size: 88px;
   line-height: 0.91;
@@ -102,6 +122,7 @@ const PageArea = styled.div`
   margin: auto;
   padding: 32px;
   background-color: white;
+  box-shadow: 0 10px 90px 0 rgba(0, 0, 0, 0.16);
 `;
 
 const Navigation = styled.div`
@@ -138,4 +159,8 @@ const Button = styled.button`
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   margin: 7px 0 9px 0;
   outline: none;
+`;
+
+const MobileButton = styled.button`
+
 `;

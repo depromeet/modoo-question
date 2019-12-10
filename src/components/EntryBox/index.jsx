@@ -5,6 +5,13 @@ import { ConfirmButtonContainer } from '../ConfirmButton'
 import { SampleConsumer } from '../../contexts/sample';
 
 class EntryBox extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      
+    }
+  }
   render() {
     const { isClickedAdminMode, } = this.props.value;
     const { handleIsClickedAdminMode, handleIsClickedCreateRoomButton, } = this.props.setValue;

@@ -5,74 +5,103 @@ import Enter from './pages/Enter';
 import Main from './pages/Main';
 
 export default function App() {
-
-  // Context로 inject할 디폴트 State 정의
-  const [id, setId] = useState(/*-1*/16);
+  
+  // Default Contexts 정의
+  // TODO: 예시 빼고 INITAL FORM으로 바꾸기
+  const [id, setId] = useState(/*0*/41);
   const [room, setRoom] = useState({
     /*
     seminarId: null,
     seminarTitle: null,
     */
-    seminarId: 1234,
+    seminarId: 39,
     seminarTitle: "디프만 외부 세미나",
   });
+
   const [speakers, setSpeakers] = useState(/*[]*/
-    ['디프마니', '라이언', '니니즈']
+    [
+      {
+        speakerId: 41,
+        speakerName: '디프마니',
+        speakerTopic: '디프만의 시작',
+        organization: '디프만',
+      },
+      {
+        speakerId: 42,
+        speakerName: '라이언',
+        speakerTopic: '백수의 왕이 되는 방법',
+        organization: 'Pride Land',
+      },
+      {
+        speakerId: 43,
+        speakerName: '니니즈',
+        speakerTopic: '인기 이모티콘이 되기까지의 여정',
+        organization: '카카오',
+      },
+    ]
   );
+
+  /* 성능 개선점: 배열이 아닌 object (또는 dict) 형태로 바꾸기
+     option 1: 백엔드로부터 받을 때 object로 받음
+               -> 최초 질문 리스트 업데이트 O(1), like 업데이트 O(1)
+     option 2: 백엔드로부터 array로 받되 최초 업데이트 시 object로 형태 변형하여 저장
+               -> 최초 질문 리스트 업데이트 O(n), like 업데이트 O(1)
+  */
   const [questionsForSpeakers, setQuestionsForSpeakers] = useState({
     /*{}*/
-    "디프마니": [
+    "1": [
       {
         commentId: 1,
         content: "질문 있어요! (to. 디프마니 님)",
-        likeContent: 5,
+        likeCount: 5,
       },
       {
         commentId: 2,
         content: "두 번째 질문! (to. 디프마니 님)",
-        likeContent: 10,
+        likeCount: 10,
       }
     ],
-    "라이언": [
+    "2": [
       {
         commentId: 1,
         content: "질문! (to. 라이언 님)",
-        likeContent: 15,
+        likeCount: 15,
       },
       {
         commentId: 2,
         content: "두 번째 질문! (to. 라이언 님)",
-        likeContent: 20,
+        likeCount: 20,
       }
     ],
-    "니니즈": [],
+    "3": [],
   });
+
   const [rankingsPerSpeakers, setRankingsPerSpeakers] = useState(/*{}*/{
-    "디프마니": [
+    "1": [
       {
         commentId: 1,
         content: "랭킹이 제일 높은 질문! (to. 디프마니 님)",
-        likeContent: 50,
+        likeCount: 50,
       },
       {
         commentId: 2,
         content: "랭킹이 두 번째로 높은 질문! (to. 디프마니 님)",
-        likeContent: 10,
+        likeCount: 10,
       }
     ],
-    "라이언": [
+    "2": [
       {
         commentId: 1,
         content: "랭킹이 제일 높은 질문! (to. 라이언 님)",
-        likeContent: 60,
+        likeCount: 60,
       },
       {
         commentId: 2,
         content: "랭킹이 두 번째로 높은 질문! (to. 라이언 님)",
-        likeContent: 20,
+        likeCount: 20,
       }
     ],
-    "니니즈": [],
+    "3": [],
   });
 
   const userContext = {
@@ -85,16 +114,55 @@ export default function App() {
   const speakerContext = {
     speakers: speakers,
     setSpeakers: (speakerList) => { setSpeakers(speakerList) },
+    addNewSpeaker: (speaker) => { setSpeakers(prev => [...prev, speaker] ) },
   };
 
   const questionContext = {
     questions: questionsForSpeakers,
-    setQuestions: (questionMap) => { setQuestionsForSpeakers(questionMap) },
+    setQuestions: (questionMap) => { 
+      setQuestionsForSpeakers(questionMap) 
+    },
+    addNewQuestion: (speaker, question) => { 
+      setQuestionsForSpeakers(prev => ({
+        ...prev, 
+        [speaker.speakerId]: [...prev[speaker.speakerId], question],
+      }));
+    },
+    // TODO: question보다 question.id만 받아서 사용할 수 있는지
+    deleteQuestion: (speaker, question) => { 
+      setQuestionsForSpeakers(prev => ({
+        ...prev,
+        [speaker.speakerId]: prev[speaker.speakerId].filter(q => 
+          q.commentId !== question.commentId
+        ),
+      }));
+    },
+    // TODO: question보다 question.id만 받아서 사용할 수 있는지
+    updateLikeCount: (speaker, question, likeCount) => {
+      setQuestionsForSpeakers(prev => ({
+        ...prev,
+        [speaker.speakerId]: prev[speaker.speakerId].map(q => {
+          if (q.commentId === question.commentId) {
+            return ({
+              ...q,
+              likeCount: likeCount,
+            });
+          }
+          return q;
+        }),
+      }));
+    }
   };
 
   const rankingContext = {
     rankings: rankingsPerSpeakers,
     setRankings: (rankingMap) => { setRankingsPerSpeakers(rankingMap) },
+    updateRankingsOfSpeaker: (speaker, rankingsList) => {
+      setRankingsPerSpeakers(prev => ({
+        ...prev,
+        [speaker.speakerId]: rankingsList,
+      }))
+    }
   };
 
   return (
@@ -110,7 +178,7 @@ export default function App() {
             </BrowserRouter>
           </RankingProvider>
         </QuestionProvider>
-    </SpeakerProvider>
-  </UserProvider>
+      </SpeakerProvider>
+    </UserProvider>
   );
 };
