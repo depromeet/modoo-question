@@ -59,28 +59,28 @@ class InputBox extends Component {
     switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
       case 'first':
         if (!isDelete()) {
-          this.textInput2.focus();
+          this.secondInput.focus();
         }
         break;
       case 'second':
         if (isDelete()) {
-          this.textInput1.focus();
+          this.firstInput.focus();
         }
         else {
-          this.textInput3.focus();
+          this.thirdInput.focus();
         }
         break;
       case 'third':
         if (isDelete()) {
-          this.textInput2.focus();
+          this.secondInput.focus();
         }
         else {
-          this.textInput4.focus();
+          this.fourthInput.focus();
         }
         break;
       case 'fourth':
         if (isDelete()) {
-          this.textInput3.focus();
+          this.thirdInput.focus();
         }
         break;
       default:
@@ -129,25 +129,26 @@ class InputBox extends Component {
 
   // 방번호 맨 앞에서부터 입력하도록 고정
   handleInputFocus = () => {
-    const { first, second, third, } = this.props.value;
+    const { first, second, third } = this.props.value.roomNumber;
     const isEmpty = (value) => {
       return value === '';
     }
     if (isEmpty(first)) {
-      this.textInput1.focus();
+      this.firstInput.focus();
     }
     else if (isEmpty(second)) {
-      this.textInput2.focus();
+      this.secondInput.focus();
     }
     else if (isEmpty(third)) {
-      this.textInput3.focus();
+      this.thirdInput.focus();
     }
   }
   
   render() {
-    const { first, second, third, fourth, } = this.props.value;
+    const { first, second, third, fourth } = this.props.value.roomNumber;
+    const { isClickedAdminMode } = this.props.value;
     return (
-        <Inputs>
+        <Inputs isAdminMode={isClickedAdminMode}>
           <Input 
             type="number" 
             placeholder="0" 
@@ -156,8 +157,9 @@ class InputBox extends Component {
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.first} 
-            ref={element => this.textInput1 = element}
+            ref={element => this.firstInput = element}
             onClick={this.handleInputFocus}
+            isAdminMode={isClickedAdminMode}
           />
           <Input 
             type="number" 
@@ -167,8 +169,9 @@ class InputBox extends Component {
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.second} 
-            ref={element => this.textInput2 = element}
+            ref={element => this.secondInput = element}
             onClick={this.handleInputFocus}
+            isAdminMode={isClickedAdminMode}
           />
           <Input 
             type="number" 
@@ -178,8 +181,9 @@ class InputBox extends Component {
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber} 
             blink={this.state.isPressedNotNumber.third} 
-            ref={element => this.textInput3 = element}
+            ref={element => this.thirdInput = element}
             onClick={this.handleInputFocus}
+            isAdminMode={isClickedAdminMode}
           />
           <Input 
             type="number" 
@@ -189,8 +193,9 @@ class InputBox extends Component {
             onChange={this.handleMoveFocusInput} 
             onKeyDown={this.filterNumber}
             blink={this.state.isPressedNotNumber.fourth} 
-            ref={element => this.textInput4 = element}
+            ref={element => this.fourthInput = element}
             onClick={this.handleInputFocus}
+            isAdminMode={isClickedAdminMode}
           />
         </Inputs>
       );
@@ -202,7 +207,7 @@ export const InputBoxContainer = () => (
     {
       ({state, actions}) => (
         <InputBox 
-          value={state.roomNumber}
+          value={state}
           setValue={actions}
         />
       )
@@ -221,8 +226,8 @@ const Inputs = styled.div`
   flex-direction: row;
 
   @media screen and (min-width: 769px) {
-    width: 432px !important;
-    height: 222px !important;
+    width: ${props => props.isAdminMode ? "274px" : "432px"};
+    height: ${props => props.isAdminMode ? "119px" : "222px"};
   }
 `
 
@@ -261,7 +266,7 @@ const Input = styled.input`
   }
 
   @media screen and (min-width: 769px) {
-    width: 96px;
-    font-size: 160px;
+    width: ${props => props.isAdminMode ? "42px" : "96px"};
+    font-size: ${props => props.isAdminMode ? "80px" : "160px"};
   }
 `

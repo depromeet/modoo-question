@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
-import DesignerAndDevelopersImg from '../../static/images/11615@3x.png';
 import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
 import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
-import EntryBox, { EntryBoxContainer } from '../EntryBox';
+import { EntryBoxContainer } from '../EntryBox';
 
 const EntryView = () => {
   return (

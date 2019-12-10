@@ -16,6 +16,7 @@ class SampleProvider extends Component {
     isWrongRoomNumber: true, // 방 번호가 잘못되었어?
     isClickedConfirmButton: false, // 방 입장하기 버튼을 눌렀어?
     isClickedCreateRoomButton: false, // 방 만들기 버튼을 눌렀어?
+    isClickedAdminMode: false, // 관리자 모드를 눌렀어?
   }
 
   // 여기서 actions 라는 객체는 우리가 임의로 설정하는 객체입니다.
@@ -33,6 +34,9 @@ class SampleProvider extends Component {
     },
     handleIsClickedCreateRoomButton: () => {
       this.setState({ isClickedCreateRoomButton: true })
+    },
+    handleIsClickedAdminMode: () => {
+      this.setState({ isClickedAdminMode: true })
     },
   }
 

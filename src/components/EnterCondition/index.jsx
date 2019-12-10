@@ -23,7 +23,7 @@ class EnterCondition extends Component {
 
   render() {
     const { userSeminarName } = this.state;
-    const { value, setValue } = this.props;
+    const { value } = this.props;
     const isFullInput = value.roomNumber.first.length +
                         value.roomNumber.second.length +
                         value.roomNumber.third.length +
@@ -39,7 +39,15 @@ class EnterCondition extends Component {
           </Wrap>
         );
     }
-    else if (this.props.value.isClickedCreateRoomButton) {
+    // else if (value.isClickedAdminMode) {
+    //   return (
+    //     <Fragment>
+    //       <EntryPageLogo />
+          
+    //     </Fragment>
+    //   )
+    // }
+    else if (value.isClickedCreateRoomButton) {
       return (
           <Wrap>
             <Logo />
@@ -69,17 +77,26 @@ class EnterCondition extends Component {
 }
 
 export const EnterConditionContainer = () => (
-  <SampleConsumer>
-    {
-      ({state, actions}) => (
-        <EnterCondition 
-          value={state}
-          setValue={actions}
-        />
-      )
-    }
-  </SampleConsumer>
+  <Background>
+    <SampleConsumer>
+      {
+        ({state, actions}) => (
+          <EnterCondition 
+            value={state}
+            setValue={actions}
+          />
+        )
+      }
+    </SampleConsumer>
+  </Background>
 )
+
+const Background = styled.div`
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: #f2f2f2;
+`
 
 const ReverseTriangle = styled.div`
   background-image: url(${reverseTriangle});

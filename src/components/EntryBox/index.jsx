@@ -1,24 +1,33 @@
-import React from 'react';
+import React , { Component } from 'react';
 import styled from '@emotion/styled';
 import { InputBoxContainer } from '../InputBox';
 import { ConfirmButtonContainer } from '../ConfirmButton'
 import { SampleConsumer } from '../../contexts/sample';
 
-const EntryBox = ({ setValue }) => {
-  return (
-    <Contents>
-      <Content>
-        <CenterBox>
-          <FirstRow>
-            <EntranceRoom>방 입장하기</EntranceRoom>
-            <CreateRoom onClick={setValue.handleIsClickedCreateRoomButton}>방 만들기</CreateRoom>
-          </FirstRow>
-          <InputBoxContainer />
-          <ConfirmButtonContainer />
-        </CenterBox>
-      </Content>
-    </Contents>
-  )
+class EntryBox extends Component {
+  render() {
+    const { isClickedAdminMode, } = this.props.value;
+    const { handleIsClickedAdminMode, handleIsClickedCreateRoomButton, } = this.props.setValue;
+    return (
+      <Contents>
+        <Content>
+          <CenterBox>
+            <Row>
+              <EntranceRoom>방 입장하기</EntranceRoom>
+              {
+              isClickedAdminMode ?
+              <CreateRoom onClick={handleIsClickedCreateRoomButton}>방 만들기</CreateRoom>
+              :
+              <CreateRoom onClick={handleIsClickedAdminMode}>관리자 모드</CreateRoom>
+              }
+            </Row>
+            <InputBoxContainer />
+            <ConfirmButtonContainer />
+          </CenterBox>
+        </Content>
+      </Contents>
+    )
+  }
 };
 
 export const EntryBoxContainer = () => (
@@ -64,7 +73,7 @@ const CenterBox = styled.div`
   }
 `
 
-const FirstRow = styled.div`
+const Row = styled.div`
   display: flex;
   position: relative;
   top: 16px;
