@@ -6,41 +6,14 @@ import Main from './pages/Main';
 
 export default function App() {
   
-  // Default Contexts 정의
-  // TODO: 예시 빼고 INITAL FORM으로 바꾸기
-  const [id, setId] = useState(/*0*/59);
+  // Global State인 Contexts 디폴트 값 정의
+  const [id, setId] = useState(0);
   const [room, setRoom] = useState({
-    /*
-    seminarId: null,
-    seminarTitle: null,
-    */
-    seminarId: 39,
-    seminarTitle: "디프만 외부 세미나",
+    seminarId: 0,
+    seminarTitle: '',
   });
-  const [curSpeakerId, setCurSpeakerId] = useState(/*0*/41);
-
-  const [speakers, setSpeakers] = useState(/*[]*/
-    [
-      {
-        speakerId: 41,
-        speakerName: '디프마니',
-        speakerTopic: '디프만의 시작',
-        organization: '디프만',
-      },
-      {
-        speakerId: 42,
-        speakerName: '라이언',
-        speakerTopic: '백수의 왕이 되는 방법',
-        organization: 'Pride Land',
-      },
-      {
-        speakerId: 43,
-        speakerName: '니니즈',
-        speakerTopic: '인기 이모티콘이 되기까지의 여정',
-        organization: '카카오',
-      },
-    ]
-  );
+  const [curSpeakerId, setCurSpeakerId] = useState(0);
+  const [speakers, setSpeakers] = useState([]);
 
   /* 성능 개선점: 배열이 아닌 object (또는 dict) 형태로 바꾸기
      option 1: 백엔드로부터 받을 때 object로 받음
@@ -48,62 +21,8 @@ export default function App() {
      option 2: 백엔드로부터 array로 받되 최초 업데이트 시 object로 형태 변형하여 저장
                -> 최초 질문 리스트 업데이트 O(n), like 업데이트 O(1)
   */
-  const [questionsForSpeakers, setQuestionsForSpeakers] = useState({
-    /*{}*/
-    "41": [
-      {
-        commentId: 1,
-        content: "질문 있어요! (to. 디프마니 님)",
-        likeCount: 5,
-      },
-      {
-        commentId: 2,
-        content: "두 번째 질문! (to. 디프마니 님)",
-        likeCount: 10,
-      }
-    ],
-    "42": [
-      {
-        commentId: 1,
-        content: "질문! (to. 라이언 님)",
-        likeCount: 15,
-      },
-      {
-        commentId: 2,
-        content: "두 번째 질문! (to. 라이언 님)",
-        likeCount: 20,
-      }
-    ],
-    "43": [],
-  });
-
-  const [rankingsPerSpeakers, setRankingsPerSpeakers] = useState(/*{}*/{
-    "41": [
-      {
-        commentId: 1,
-        content: "랭킹이 제일 높은 질문! (to. 디프마니 님)",
-        likeCount: 50,
-      },
-      {
-        commentId: 2,
-        content: "랭킹이 두 번째로 높은 질문! (to. 디프마니 님)",
-        likeCount: 10,
-      }
-    ],
-    "42": [
-      {
-        commentId: 1,
-        content: "랭킹이 제일 높은 질문! (to. 라이언 님)",
-        likeCount: 60,
-      },
-      {
-        commentId: 2,
-        content: "랭킹이 두 번째로 높은 질문! (to. 라이언 님)",
-        likeCount: 20,
-      }
-    ],
-    "43": [],
-  });
+  const [questionsForSpeakers, setQuestionsForSpeakers] = useState({});
+  const [rankingsPerSpeakers, setRankingsPerSpeakers] = useState({});
 
   const userContext = {
     userId: id,
