@@ -12,7 +12,7 @@ function Main() {
   const { userId, setUserId, seminarRoom, setSeminarRoom, currentSpeakerId, setCurrentSpeakerId } = useContext(UserContext);
   const { speakers, setSpeakers } = useContext(SpeakerContext);
   const { questions, addNewQuestion, updateLikeCount, removeQuestion } = useContext(QuestionContext);
-  const { rankings, updateRankingsOfSpeaker  } = useContext(RankingContext);
+  const { rankings, updateRankingsOfSpeaker } = useContext(RankingContext);
 
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [userInput, setUserInput] = useState('');
@@ -43,7 +43,7 @@ function Main() {
 
   const receiveBroadcasting = (data) => {
     console.log(data);
-    
+
     if (data.type === 'COMMENT') {
 
     } else if (data.type === 'LIKE') {
@@ -51,7 +51,7 @@ function Main() {
     } else if (data.type === 'UNLIKE') {
 
     } else if (data.type === 'DELETE') {
-      
+
     }
   };
 
@@ -63,14 +63,24 @@ function Main() {
       </Background>
       <PageArea>
         <Navigation>
-          <ScrollableTabBar />
+          <ScrollableTabBar>
+            {speakers.map(s => (
+              <div key={s.speakerId}>
+                <p>{s.speakerTopic}</p>
+                <p>
+                  <span>{s.speakerName}</span>
+                  <span>{s.organization}</span>
+                </p>
+              </div>
+            ))}
+          </ScrollableTabBar>
         </Navigation>
-        <QuestionList list={questions[currentSpeakerId]}/>
+        <QuestionList list={questions[currentSpeakerId]} />
         <AskQuestion>
-          <Input onChange={inputChange}/>
+          <Input onChange={inputChange} />
           {/* TODO: 가로 길이에 따라 조건부 렌더링 */}
           {1 === 1 ? <Button onClick={postNewQuestion}>Send</Button>
-          : <MobileButton onClick={postNewQuestion}>
+            : <MobileButton onClick={postNewQuestion}>
             </MobileButton>}
         </AskQuestion>
       </PageArea>
@@ -92,7 +102,7 @@ const Background = styled.div`
   position: absolute;
   z-index: -1;
   background-color: #f2f2f2;
-  font-family: NotoSansCJKkr;
+  font-family: 'NotoSansCJKkr';
   font-weight: 100;
   text-align: left;
   color: rgba(0, 0, 0, 0.08);
@@ -110,7 +120,7 @@ const SeminarTitle = styled.div`
 const SeminarId = styled.div`
   width: 183px;
   height: 100px;
-  font-weight: 30;
+  font-weight: 100;
   align-self: flex-end;
   font-size: 88px;
   line-height: 0.91;
