@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
-import { connectWebSockets, postQuestion, updateLike, updateUnlike, deleteQuestion } from '../../remotes/websocket';
+import { connectWebSockets, postQuestion } from '../../remotes/websocket';
 import { UserContext, SpeakerContext, QuestionContext, RankingContext } from '../../contexts';
 import QuestionList from '../../components/QuestionList';
+import ScrollableTabBar from '../../components/ScrollableTabBar';
 
 function Main() {
 
   // TODO: URL로 접근시 member join 콜하여 userId 업데이트
   //       URL로 접근시 parameter 값에서 enter seminar 콜하여 seminarRoom 업데이트
-  const { userId, setUserId, seminarRoom, setSeminarRoom } = useContext(UserContext);
+  const { userId, setUserId, seminarRoom, setSeminarRoom, currentSpeakerId, setCurrentSpeakerId } = useContext(UserContext);
   const { speakers, setSpeakers } = useContext(SpeakerContext);
-  const { questions, addNewQuestion, updateLikeCount, deleteQuestion } = useContext(QuestionContext);
+  const { questions, addNewQuestion, updateLikeCount, removeQuestion } = useContext(QuestionContext);
   const { rankings, updateRankingsOfSpeaker  } = useContext(RankingContext);
 
   const [isSocketConnected, setIsSocketConnected] = useState(false);
-  const [currentSpeaker, setCurrentSpeaker] = useState('');
   const [userInput, setUserInput] = useState('');
 
   useEffect(() => {
@@ -29,29 +29,30 @@ function Main() {
     setUserInput(e.target.value);
   };
 
-  // TODO: 새 질문 작성시 웹소켓 CALL
+  // TODO: currentSpeakerId 연동 확인
   const postNewQuestion = () => {
     if (userInput.trim().length > 0) {
-      postQuestion(userInput);
+      const message = JSON.stringify({
+        'content': userInput,
+        'mid': userId,
+        'speakerId': currentSpeakerId,
+      });
+      postQuestion(seminarRoom.seminarId, message);
     }
   };
 
-  // TODO: <Question /> 에서 구현?
-  const likeQuestion = (question) => {
-    updateLike(question);
-  };
-
-  const unlikeQuestion = (question) => {
-    updateUnlike(question);
-  };
-
-  const deleteExistingQuestion = (question) => {
-
-  };
-
   const receiveBroadcasting = (data) => {
-    console.log(data.type);
-    // type에 따라 context 업데이트하기
+    console.log(data);
+    
+    if (data.type === 'COMMENT') {
+
+    } else if (data.type === 'LIKE') {
+
+    } else if (data.type === 'UNLIKE') {
+
+    } else if (data.type === 'DELETE') {
+      
+    }
   };
 
   return (
@@ -62,9 +63,9 @@ function Main() {
       </Background>
       <PageArea>
         <Navigation>
-
+          <ScrollableTabBar />
         </Navigation>
-        <QuestionList list={questions}/>
+        <QuestionList list={questions[currentSpeakerId]}/>
         <AskQuestion>
           <Input onChange={inputChange}/>
           {/* TODO: 가로 길이에 따라 조건부 렌더링 */}

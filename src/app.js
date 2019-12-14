@@ -8,7 +8,7 @@ export default function App() {
   
   // Default Contexts 정의
   // TODO: 예시 빼고 INITAL FORM으로 바꾸기
-  const [id, setId] = useState(/*0*/41);
+  const [id, setId] = useState(/*0*/59);
   const [room, setRoom] = useState({
     /*
     seminarId: null,
@@ -17,6 +17,7 @@ export default function App() {
     seminarId: 39,
     seminarTitle: "디프만 외부 세미나",
   });
+  const [curSpeakerId, setCurSpeakerId] = useState(/*0*/41);
 
   const [speakers, setSpeakers] = useState(/*[]*/
     [
@@ -49,7 +50,7 @@ export default function App() {
   */
   const [questionsForSpeakers, setQuestionsForSpeakers] = useState({
     /*{}*/
-    "1": [
+    "41": [
       {
         commentId: 1,
         content: "질문 있어요! (to. 디프마니 님)",
@@ -61,7 +62,7 @@ export default function App() {
         likeCount: 10,
       }
     ],
-    "2": [
+    "42": [
       {
         commentId: 1,
         content: "질문! (to. 라이언 님)",
@@ -73,11 +74,11 @@ export default function App() {
         likeCount: 20,
       }
     ],
-    "3": [],
+    "43": [],
   });
 
   const [rankingsPerSpeakers, setRankingsPerSpeakers] = useState(/*{}*/{
-    "1": [
+    "41": [
       {
         commentId: 1,
         content: "랭킹이 제일 높은 질문! (to. 디프마니 님)",
@@ -89,7 +90,7 @@ export default function App() {
         likeCount: 10,
       }
     ],
-    "2": [
+    "42": [
       {
         commentId: 1,
         content: "랭킹이 제일 높은 질문! (to. 라이언 님)",
@@ -101,7 +102,7 @@ export default function App() {
         likeCount: 20,
       }
     ],
-    "3": [],
+    "43": [],
   });
 
   const userContext = {
@@ -109,6 +110,8 @@ export default function App() {
     setUserId: (idNum) => { setId(idNum) },
     seminarRoom: room,
     setSeminarRoom: (roomInfo) => { setRoom(roomInfo) },
+    currentSpeakerId: curSpeakerId,
+    setCurrentSpeakerId: (speakerId) => { setCurSpeakerId(speakerId) },
   };
 
   const speakerContext = {
@@ -129,7 +132,7 @@ export default function App() {
       }));
     },
     // TODO: question보다 question.id만 받아서 사용할 수 있는지
-    deleteQuestion: (speaker, question) => { 
+    removeQuestion: (speaker, question) => { 
       setQuestionsForSpeakers(prev => ({
         ...prev,
         [speaker.speakerId]: prev[speaker.speakerId].filter(q => 
