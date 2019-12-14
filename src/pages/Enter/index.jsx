@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import EntryView from '../../components/EntryView';
 import SeminarInfo from '../../components/SeminarInfo';
 import logoImg from '../../static/images/33-3@3x.png';
-import { createSeminarRoom } from '../../remotes/api';
+import { createSeminarRoom, enterSeminar } from '../../remotes/api';
 
 /*  새 세미나 방 생성하는 함수 호출
     createSeminarRoom(seminarRoomDto, speakerList).then(res => {

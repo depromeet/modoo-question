@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Question from '../Question';
+import QuestionItem from '../QuestionItem';
 
 function QuestionList( {list} ) {
 
   return (
     <Wrapper>
         {list.map(q => (
-            <Question key={q.commentId} content={q.content} likeCount={q.likeCount} liked={q.liked} />
+            <QuestionItem key={q.commentId} content={q.content} likeCount={q.likeCount} liked={q.liked} />
         ))}
     </Wrapper>
     
