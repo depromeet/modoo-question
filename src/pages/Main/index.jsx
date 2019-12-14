@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';
+import { enterSeminar } from '../../remotes/api';
 import { connectWebSockets, postQuestion } from '../../remotes/websocket';
 import { UserContext, SpeakerContext, QuestionContext, RankingContext } from '../../contexts';
 import QuestionList from '../../components/QuestionList';
 import ScrollableTabBar from '../../components/ScrollableTabBar';
 
 function Main() {
-
-  // TODO: URL로 접근시 member join 콜하여 userId 업데이트
-  //       URL로 접근시 parameter 값에서 enter seminar 콜하여 seminarRoom 업데이트
   const { userId, setUserId, seminarRoom, setSeminarRoom, currentSpeakerId, setCurrentSpeakerId } = useContext(UserContext);
   const { speakers, setSpeakers } = useContext(SpeakerContext);
   const { questions, addNewQuestion, updateLikeCount, removeQuestion } = useContext(QuestionContext);
@@ -18,6 +16,29 @@ function Main() {
   const [userInput, setUserInput] = useState('');
 
   useEffect(() => {
+    if (seminarRoom === null) {
+      const paths = window.location.pathname.split("/");
+      setSeminarRoom = {seminarId: paths[paths.length - 1]};
+    }
+
+    if (userId === null) {
+      enterSeminar(seminarRoom.seminarId).then(res => {
+        const {commentListBySpeaker, member} = res;
+        const questionMap = {};
+        const rankingMap = {};
+
+        setUserId(member.mid);
+        setSeminarRoom(member.seminarRoom);
+        commentListBySpeaker.forEach(speech => {
+          addNewSpeaker(speech.speaker);
+          questionMap[speech.speaker.speakerId] = commentList;
+          rankingMap[speech.speaker.speakerId] = commentRankingList;
+        })
+        setQuestions(questionMap);
+        setRankings(rankingMap);
+      });
+    }
+
     if (!isSocketConnected) {
       // TODO: async-await 형식으로 바꾸기 (connect 성공이면 -> setIsSocketConnected)
       connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
