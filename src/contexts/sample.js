@@ -1,30 +1,34 @@
 import React, { Component, createContext } from 'react';
 
-const Context = createContext(); // Context 를 만듭니다.
-
-// Context 안에는 Provider와 Consumer 라는것이 존재합니다.
-// 이 둘은, Context 를 이용하기 위해 필요한 컴포넌트들입니다.
-// Consumer 는 나중에 내보내줄 때 편하도록 SampleConsumer 라고 부르도록 설정했습니다.
+const Context = createContext();
 const { Provider, Consumer: SampleConsumer } = Context;
 
-// Provider 에서 state 를 사용하기 위해서 컴포넌트를 새로 만들어줍니다.
 class SampleProvider extends Component {
   state = {
     roomNumber: {
       first: '', second: '', third: '', fourth: '',
     },
-    isWrongRoomNumber: true, // 방 번호가 잘못되었어?
+    password: {
+      first: '', second: '', third: '', fourth: '',
+    },
+    seminars: [
+      {title: '', speakerName: '', division: ''},
+    ],
+    userSeminarName: '',
+    isWrongRoomNumber: false, // 방 번호가 잘못되었어?
     isClickedConfirmButton: false, // 방 입장하기 버튼을 눌렀어?
     isClickedCreateRoomButton: false, // 방 만들기 버튼을 눌렀어?
     isClickedAdminMode: false, // 관리자 모드를 눌렀어?
+    isClickedReverseTriangle: false, // 세미나 이름 입력하는 페이지에서 삼각형 버튼 눌렀어?
+    isCreatedRoom: false, // 방이 만들어졌어?
   }
 
-  // 여기서 actions 라는 객체는 우리가 임의로 설정하는 객체입니다.
-  // 나중에 변화를 일으키는 함수들을 전달해줄 때, 함수 하나하나 일일히 전달하는것이 아니라
-  // 객체 하나로 한꺼번에 전달하기 위함입니다.
   actions = {
     handleChangeInput: (value) => {
       this.setState({ roomNumber: value });
+    }, 
+    handleChangePassword: (value) => {
+      this.setState({ password: value });
     }, 
     handleIsClickedConfirmButton: () => {
       this.setState({ isClickedConfirmButton: true })
@@ -38,14 +42,55 @@ class SampleProvider extends Component {
     handleIsClickedAdminMode: () => {
       this.setState({ isClickedAdminMode: true })
     },
+    handleIsClickedAdminModeToFalse: () => {
+      this.setState({ isClickedAdminMode: false })
+    },
+    handleIsClickedReverseTriangle: () => {
+      this.setState({ isClickedReverseTriangle: true })
+      this.setState({ isClickedCreateRoomButton: false })
+    },
+    handleIsClickedReverseTriangleToFalse: () => {
+      this.setState({ isClickedReverseTriangle: false });
+    },
+    handleIsCreatedRoom: () => {
+      this.setState({ isCreatedRoom: true });
+    },
+    handleChangeSeminarTitle: (event, index) => {
+      const newSeminars = this.state.seminars.concat();
+      newSeminars[index].title = event.target.value;
+      this.setState({
+        seminars: newSeminars
+      })
+    },
+    handleChangeSpeakerName: (event, index) => {
+      const newSeminars = this.state.seminars.concat();
+      newSeminars[index].speakerName = event.target.value;
+      this.setState({
+        seminars: newSeminars
+      })
+    },
+    handleChangeDivision: (event, index) => {
+      const newSeminars = this.state.seminars.concat();
+      newSeminars[index].division = event.target.value;
+      this.setState({
+        seminars: newSeminars
+      })
+    },
+    handleAddSeminarSpeaker: () => {
+      const newSeminars = this.state.seminars.concat({title: '', speakerName: '', division: ''})
+      this.setState({
+        seminars: newSeminars
+      })
+    },
+    handleUserSeminarName: (event) => {
+      this.setState({
+        userSeminarName: event.target.value
+      });
+    }
   }
 
   render() {
     const { state, actions } = this;
-    // Provider 내에서 사용할 값은, "value" 라고 부릅니다.
-    // 현재 컴포넌트의 state 와 actions 객체를 넣은 객체를 만들어서,
-    // Provider 의 value 값으로 사용하겠습니다.
-    // const value = { state, actions };
     const value = { state, actions }
     return (
       <Provider value={value}>
@@ -55,7 +100,6 @@ class SampleProvider extends Component {
   }
 }
 
-// 내보내줍니다.
 export {
   SampleProvider,
   SampleConsumer,

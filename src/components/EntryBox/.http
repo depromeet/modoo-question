@@ -1,0 +1,18 @@
+POST  http://13.125.252.156:8081/api/seminar
+Content-Type: application/json
+
+{
+  "seminarRoomDto": {
+    "fullURL": "http://test.uri",
+    "seminarPassword": "1234",
+    "seminarTitle": "세미나 방 이름"
+  },
+  "speakerList": [
+    {
+      "organization": "string",
+      "seminarId": 0,
+      "speakerName": "string",
+      "speakerTopic": "string"
+    }
+  ]
+}

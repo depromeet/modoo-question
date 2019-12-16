@@ -1,52 +1,65 @@
 import React, { Component, Fragment } from 'react';
 import styled from '@emotion/styled';
 import EntryView from '../EntryView';
-import SeminarInfo from '../SeminarInfo';
+import SeminarInfoContainer from '../SeminarInfo';
 import logoImg from '../../static/images/33-3@3x.png';
 import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 import { SampleConsumer } from '../../contexts/sample';
+import { createSeminarRoom } from '../../remotes/api';
+import SpeakerFormsContainer from '../SpeakerForms';
 
 class EnterCondition extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      userSeminarName: '',
-    }
   }
 
-  handleUserSeminarName = (event) => {
-    this.setState({
-      userSeminarName: event.target.value
+  createRoom = () => {
+    const { value, setValue } = this.props;
+    const password = value.password.first + value.password.second + value.password.third + value.password.fourth;
+    const speakerList = value.seminars.map(value => {
+      return {
+        "organization": `${value.division}`,
+        "seminarId": 0,
+        "speakerName": `${value.speakerName}`,
+        "speakerTopic": `${value.title}`,
+      }
     });
+    const seminarDto = {
+      "fullURL": "http://naver.com",
+      "seminarPassword": `${password}`,
+      "seminarTitle": `${value.userSeminarName}`
+    }
+    // createSeminarRoom(seminarDto, speakerList);
+    setValue.handleIsClickedReverseTriangleToFalse();
+    setValue.handleIsCreatedRoom();
   }
 
   render() {
-    const { userSeminarName } = this.state;
-    const { value } = this.props;
+    const { value, setValue } = this.props;
     const isFullInput = value.roomNumber.first.length +
                         value.roomNumber.second.length +
                         value.roomNumber.third.length +
                         value.roomNumber.fourth.length === 4;
     const isWrongRoomNumber = value.isWrongRoomNumber;
-    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && this.props.value.isClickedConfirmButton;
+    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && value.isClickedConfirmButton;
     
-    if (isCorrectRoomNumber) {
+    if (value.isCreatedRoom) {
+      return (
+        <Wrap>
+          <Logo />
+          <SeminarInfoContainer />
+        </Wrap>
+      )
+    }
+    else if (isCorrectRoomNumber) {
       return (
           <Wrap>
             <Logo />
-            <SeminarInfo />
+            <SeminarInfoContainer />
           </Wrap>
         );
     }
-    // else if (value.isClickedAdminMode) {
-    //   return (
-    //     <Fragment>
-    //       <EntryPageLogo />
-          
-    //     </Fragment>
-    //   )
-    // }
     else if (value.isClickedCreateRoomButton) {
       return (
           <Wrap>
@@ -54,16 +67,24 @@ class EnterCondition extends Component {
             <WrapInput>
             <SeminarTitleForm>세미나 제목</SeminarTitleForm>
             <Input 
-              onChange={this.handleUserSeminarName} 
-              value={userSeminarName} 
+              onChange={setValue.handleUserSeminarName} 
+              value={value.userSeminarName} 
               placeholder="세미나 이름은 무엇인가요?" 
               maxLength="32" 
             />
             <BorderBottom />
             </WrapInput>
-            <ReverseTriangle />
+            <ReverseTriangle onClick={setValue.handleIsClickedReverseTriangle}/>
           </Wrap>
       );
+    }
+    else if (value.isClickedReverseTriangle) {
+      return (
+        <WhiteWrapper>
+          <SpeakerFormsContainer />
+          <CreateRoomButton onClick={this.createRoom}>방 만들기</CreateRoomButton>
+        </WhiteWrapper>
+      )
     }
     else {
       return (
@@ -90,6 +111,28 @@ export const EnterConditionContainer = () => (
     </SampleConsumer>
   </Background>
 )
+
+const CreateRoomButton = styled.div`
+  width: 70px;
+  height: 27px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
+  margin: 0 auto;
+  position: relative;
+  top: 725px;
+  text-decoration: underline;
+`
+
+const WhiteWrapper = styled.div`
+  width: 944px;
+  height: 100vh;
+  box-shadow: 0 10px 90px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  margin: 0 auto;
+`
 
 const Background = styled.div`
   width: 100vw;

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import urlCopyButtonImg from '../../static/images/10-20@3x.png';
+import { SampleConsumer } from '../../contexts/sample.js';
+import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 
 const seminarFakeInfo = {
   title: "세미나 이름은 무엇일까요? 이름은무엇일까요? 세미나 이름은 무엇",
@@ -9,30 +11,57 @@ const seminarFakeInfo = {
   url: "www.bit.ly/xxxxxx",
 }
 
-const SeminarInfo = () => {
+const SeminarInfo = (value) => {
+  const { userSeminarName, roomNumber } = value.value;
   return (
-    <Wrap>
-      <FormSeminarHeader>세미나 이름</FormSeminarHeader>
-      <UsersSeminarTitle>
-        {seminarFakeInfo.title}
-        <NumberOfPeople> {seminarFakeInfo.numberOfPeople}</NumberOfPeople>
-      </UsersSeminarTitle>
-      <Row>
-        <WrapRoomNumber>
-          <FormSeminarHeader>방 번호</FormSeminarHeader>
-          <UsersSeminarRoomNumber>{seminarFakeInfo.roomNumber}</UsersSeminarRoomNumber>
-        </WrapRoomNumber>
-        <WrapUrl>
-          <FormSeminarHeader>URL</FormSeminarHeader>
-          <UsersSeminarUrl>{seminarFakeInfo.url}</UsersSeminarUrl>
-        </WrapUrl>
-        <UrlCopyButton />
-      </Row>
-    </Wrap>
+    <Fragment>
+      <Wrap>
+        <FormSeminarHeader>세미나 이름</FormSeminarHeader>
+        <UsersSeminarTitle>
+          {userSeminarName}
+          <NumberOfPeople> (0 명)</NumberOfPeople>
+        </UsersSeminarTitle>
+        <Row>
+          <WrapRoomNumber>
+            <FormSeminarHeader>방 번호</FormSeminarHeader>
+            <UsersSeminarRoomNumber>{roomNumber.first+roomNumber.second+roomNumber.third+roomNumber.fourth}</UsersSeminarRoomNumber>
+          </WrapRoomNumber>
+          <WrapUrl>
+            <FormSeminarHeader>URL</FormSeminarHeader>
+            <UsersSeminarUrl>{seminarFakeInfo.url}</UsersSeminarUrl>
+          </WrapUrl>
+          <UrlCopyButton />
+        </Row>
+      </Wrap>
+      <ReverseTriangle />
+    </Fragment>
   )
 }
 
-export default SeminarInfo;
+const SeminarInfoContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <SeminarInfo
+          value={state}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
+
+export default SeminarInfoContainer;
+
+const ReverseTriangle = styled.div`
+  background-image: url(${reverseTriangle});
+  background-size: cover;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  bottom: 16px;
+  left: 631px;
+`
 
 const Wrap = styled.div`
   position: absolute;
