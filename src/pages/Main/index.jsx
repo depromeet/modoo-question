@@ -189,7 +189,15 @@ const RankingSection = styled.div`
 `;
 
 const RankingTitle = styled.h2`
-
+  font-family: 'NotoSans';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 2.38;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
 `;
 
 const RankingFoldButton = styled.button`
