@@ -4,25 +4,18 @@ import { SampleConsumer } from '../../contexts/sample';
 
 class ConfirmButton extends Component {
   render() {
-    const { first, second, third, fourth } = this.props.value.roomNumber;
+    const { first } = this.props.value.roomNumber;
     const { isWrongRoomNumber, isClickedConfirmButton } = this.props.value;
-    const isFullInput = first.length + 
-                        second.length + 
-                        third.length + 
-                        fourth.length === 4;
-    const displayErrorOfRoomNumber = isWrongRoomNumber && isFullInput && isClickedConfirmButton;
+    const displayErrorOfRoomNumber = isWrongRoomNumber && first.length && isClickedConfirmButton;
     return (
-      <ThirdRow>
-        {displayErrorOfRoomNumber ? 
-        <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber>
-        :
-        null}
+      <Wrapper>
+        {displayErrorOfRoomNumber ? <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber> : null}
         <Confirm 
           onClick={this.props.setValue.handleIsClickedConfirmButton} 
-          isFullInput={isFullInput}>
+          isFullInput={first.length}>
           확인
         </Confirm>
-      </ThirdRow>
+      </Wrapper>
     )
   }
 }
@@ -42,7 +35,7 @@ export const ConfirmButtonContainer = () => (
 
 export default ConfirmButtonContainer;
 
-const ThirdRow = styled.div`
+const Wrapper = styled.div`
   display: flex;
   position: relative;
   bottom: 16px;
