@@ -2,7 +2,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { API_ROOT } from './api';
 
-// Socket Configurations
+// 웹소켓 설정 정의
 export const STOMP_ENDPOINT = '/q-rank-websock';
 export const DESTINATION_PREFIX = '/app';
 export const SIMPLE_BROKER = '/subscribe';
@@ -14,22 +14,24 @@ export function connectWebSockets(seminarId, callbackFunc) {
   stompClient = Stomp.over(socket);
 
   stompClient.connect({}, 
-    // successful connection: subscribe to topic
+    // 연결 성공 시, topic에 구독
     () => {    
+      // @SendTo("/seminar/{seminarid}")
       stompClient.subscribe(`${SIMPLE_BROKER}/seminar/${seminarId}`, (res) => {
         const data = JSON.parse(res.body);
-        console.log("websocket received" + data);
         callbackFunc(data);
-    })},
-    // unsuccessful connection
+      });
+    },
+    // 연결 실패 시, 에러 메세지 전달
     (error) => {
-      return error;
+      console.log("failed connecting!");
+      // TODO: return error message -> isConnected 업데이트 확인 위해
     }
   );
 };
 
 /**
- *  Methods to send messages to server via websockets
+ *  웹소켓을 통해 서버에게 메세지 전달
  */
 export function postQuestion(seminarId, question) {
   stompClient.send(`${DESTINATION_PREFIX}/comment/${seminarId}`, {}, question);

@@ -13,7 +13,7 @@ export const QuestionContext = createContext({
   },
   setQuestions: () => {},
   addNewQuestion: () => {},
-  deleteQuestion: () => {},
+  removeQuestion: () => {},
   updateLikeCount: () => {},
 });
 
