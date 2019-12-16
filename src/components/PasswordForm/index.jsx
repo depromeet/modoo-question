@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import { SampleConsumer } from '../../contexts/sample';
 
-class InputBox extends Component {
+class PasswordForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // 방 번호
-      roomNumber : { first: '', second: '', third: '', fourth: '' },
+      password : { first: '', second: '', third: '', fourth: '' },
 
        // 숫자가 아닌 키를 눌렀는가?
       isPressedNotNumber: { first: false, second: false, third: false, fourth: false },
     }
   }
 
-  handleChangeInput = (event) => {
+  handleChangePassword = (event) => {
     // 클릭 초기화
     this.props.setValue.handleIsClickedConfirmButtonToFalse();
 
@@ -25,16 +25,16 @@ class InputBox extends Component {
     if (isLessTwoDigits()) {
       switch (event.target.className.split(' ')[0]) { // event.target.className: first css-kj2lr3
         case 'first':
-          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, first: changedText } }));
+          this.setState(prevState => ({ password: { ...prevState.password, first: changedText } }));
           break;
         case 'second':
-          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, second: changedText } }));
+          this.setState(prevState => ({ password: { ...prevState.password, second: changedText } }));
           break;
         case 'third':
-          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, third: changedText } }));
+          this.setState(prevState => ({ password: { ...prevState.password, third: changedText } }));
           break;
         case 'fourth':
-          this.setState(prevState => ({ roomNumber: { ...prevState.roomNumber, fourth: changedText } }));
+          this.setState(prevState => ({ password: { ...prevState.password, fourth: changedText } }));
           break;
         default:
           break;
@@ -42,16 +42,16 @@ class InputBox extends Component {
       }
     
     setTimeout(() => {
-      this.props.setValue.handleChangeInput(this.state.roomNumber);
+      this.props.setValue.handleChangePassword(this.state.password);
     }, 1);
-    // 문제점: roomNumber state가 SampleProvider에서 곧바로 변경되지 않는다.
+    // 문제점: password state가 SampleProvider에서 곧바로 변경되지 않는다.
     // setState가 비동기라서 그런 것 같음.
     // setTimeout으로 임시로 설정.
     // 빨리 고쳐야 함...
   }
   
   handleMoveFocusInput = (event) => {
-    this.handleChangeInput(event);
+    this.handleChangePassword(event);
 
     const changedText = event.target.value;
     const isDelete = () => (changedText === '');
@@ -129,7 +129,7 @@ class InputBox extends Component {
 
   // 방번호 맨 앞에서부터 입력하도록 고정
   handleInputFocus = () => {
-    const { first, second, third } = this.props.value.roomNumber;
+    const { first, second, third } = this.props.value.password;
     const isEmpty = (value) => {
       return value === '';
     }
@@ -145,12 +145,12 @@ class InputBox extends Component {
   }
   
   render() {
-    const { first, second, third, fourth } = this.props.value.roomNumber;
+    const { first, second, third, fourth } = this.props.value.password;
     const { isClickedAdminMode } = this.props.value;
     return (
         <Inputs isAdminMode={isClickedAdminMode}>
           <Input 
-            type="number" 
+            type="password" 
             placeholder="0" 
             className="first" 
             value={first}
@@ -162,7 +162,7 @@ class InputBox extends Component {
             isAdminMode={isClickedAdminMode}
           />
           <Input 
-            type="number" 
+            type="password" 
             placeholder="0" 
             className="second" 
             value={second} 
@@ -174,7 +174,7 @@ class InputBox extends Component {
             isAdminMode={isClickedAdminMode}
           />
           <Input 
-            type="number" 
+            type="password" 
             placeholder="0" 
             className="third" 
             value={third}
@@ -186,7 +186,7 @@ class InputBox extends Component {
             isAdminMode={isClickedAdminMode}
           />
           <Input 
-            type="number" 
+            type="password" 
             placeholder="0" 
             className="fourth" 
             value={fourth} 
@@ -202,11 +202,11 @@ class InputBox extends Component {
   }
 };
 
-export const InputBoxContainer = () => (
+export const PasswordFormContainer = () => (
   <SampleConsumer>
     {
       ({state, actions}) => (
-        <InputBox 
+        <PasswordForm 
           value={state}
           setValue={actions}
         />
@@ -229,6 +229,7 @@ const Inputs = styled.div`
     width: ${props => props.isAdminMode ? "274px" : "432px"};
     height: ${props => props.isAdminMode ? "119px" : "222px"};
     left: ${props => props.isAdminMode ? "93px" : "0px"};
+    top: ${props => props.isAdminMode ? "-50px" : "0px"};
   }
 `
 
