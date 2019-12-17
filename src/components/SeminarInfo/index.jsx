@@ -24,7 +24,7 @@ class SeminarInfo extends Component {
             <FormSeminarHeader>{'URL'}</FormSeminarHeader>
             <UsersSeminarUrl>{shortUrl}</UsersSeminarUrl>
           </WrapUrl>
-          <UrlCopyButton />
+          <UrlCopyButton onClick={()=> {navigator.clipboard.writeText(shortUrl)}}/>
         </Row>
       </Wrap>
       <ReverseTriangle />
@@ -83,6 +83,7 @@ const UrlCopyButton = styled.div`
   height: 24px;
   position: relative;
   top: 21px;
+  cursor: pointer;
 
   @media screen and (min-width: 769px) {
     width: 48px;
