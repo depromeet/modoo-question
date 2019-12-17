@@ -13,17 +13,21 @@ function ScrollableTabBar({ children }) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <TabBar>
+    <StyledTabBar>
       {children.map(li => (
         <StyledTab>
           {li}
         </StyledTab>
       ))}
-    </TabBar>
+    </StyledTabBar>
   );
 }
 
 export default ScrollableTabBar;
+
+const StyledTabBar = styled(TabBar)`
+  width: 100%;
+`;
 
 const StyledTab = styled(Tab)`
   max-width: 208px;

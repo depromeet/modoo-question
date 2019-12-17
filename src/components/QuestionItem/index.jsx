@@ -67,8 +67,14 @@ const Text = styled.div`
   background-color: rgba(242, 242, 242, 0.54);
   box-sizing: border-box;
   padding: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
   line-height: 1.71;
+  letter-spacing: normal;
+  text-align: left;
   color: rgba(0, 0, 0, 0.54);
 `
 
@@ -77,10 +83,13 @@ const Likes = styled.div`
   height: 28px;
   display: flex;
   justify-content: space-between;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.75;
+  text-align: left;
   color: rgba(0, 0, 0, 0.87);
+
 `;
 
 const LikeButton = styled.button`

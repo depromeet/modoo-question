@@ -7,10 +7,9 @@ function QuestionList( {list} ) {
   return (
     <Wrapper>
         {list.map(q => (
-            <QuestionItem key={q.commentId} content={q.content} likeCount={q.likeCount} liked={q.liked} />
+            <QuestionItem key={q.commentId} content={q.content} likeCount={q.likeCount} />
         ))}
     </Wrapper>
-    
   );
 }
 

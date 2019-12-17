@@ -9,7 +9,7 @@ import ScrollableTabBar from '../../components/ScrollableTabBar';
 function Main() {
   // Global State인 Context 변수 및 메소드 불러오기
   const { userId, setUserId, seminarRoom, setSeminarRoom } = useContext(UserContext);
-  const { speakers, setSpeakers, addNewSpeaker } = useContext(SpeakerContext);
+  const { speakers, addNewSpeaker } = useContext(SpeakerContext);
   const { questions, setQuestions, addNewQuestion, updateLikeCount, removeQuestion } = useContext(QuestionContext);
   const { rankings, setRankings, updateRankingsOfSpeaker } = useContext(RankingContext);
 
@@ -17,27 +17,22 @@ function Main() {
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [currentSpeakerId, setCurrentSpeakerId] = useState(0);
+  const [currentQuestionList, setCurrentQuestionList] = useState([]);
+  const [currentRankingList, setCurrentRankingList] = useState([]);
 
+  // URL로 방 입장 시
   useEffect(() => {
-    /**
-     * URL을 통해 직접적으로 페이지에 접근한 경우,
-     * URL을 직접 파싱하여 seminarId 값을 구하여 저장
-     * (enterSeminar API 콜을 위해 필요)
-     */
-    const paths = window.location.pathname.split("/");
-    if (seminarRoom.seminarId === 0) {
-      setSeminarRoom({
-        seminarId: Number(paths[paths.length - 1]),
-        seminarTitle: null,
-      });
-    }
+    if (userId === 0) {
+      // URL을 직접 파싱하여 방 번호 구하기
+      const paths = window.location.pathname.split("/");
+      const seminarId = (seminarRoom.seminarId > 0)
+        ? seminarRoom.seminarId
+        : Number(paths[paths.length - 1]);
 
-    /**
-     * seminarId 값을 바탕으로 세미나 방에 입장하여 
-     * 현재 방의 발표자, 질문, 랭킹 정보를 업데이트
-     */
-    if (seminarRoom.seminarId > 0 && userId === 0) {
-      enterSeminar(seminarRoom.seminarId).then(res => {
+      // TODO: 방 번호가 존재하지 않는 방의 경우 체크하기
+
+      // 현재 방의 발표자, 질문, 랭킹 정보를 업데이트
+      enterSeminar(seminarId).then(res => {
         const { commentListBySpeaker, member } = res;
         const questionMap = {};
         const rankingMap = {};
@@ -53,17 +48,26 @@ function Main() {
         setRankings(rankingMap);
       });
     }
+  }, []);
 
-    /**
-     * 발표자들 중 맨 앞의 발표자로 디폴트 탭 설정
-     */
-    if (speakers.length > 0) {
+  // 발표자들 중 맨 앞의 발표자로 디폴트 설정 (선택한 발표)
+  useEffect(() => {
+    if (currentSpeakerId === 0 && speakers.length > 0) {
       setCurrentSpeakerId(speakers[0].speakerId);
     }
-    /**
-     * 웹소켓 연결하기
-     */
-    if (seminarRoom.seminarId > 0 && userId === 0 && !isSocketConnected) {
+  }, [speakers]);
+
+  // 발표자가 업데이트되면, 질문 및 랭킹 업데이트
+  useEffect(() => {
+    if (questions !== undefined && questions[currentSpeakerId]) {
+      setCurrentQuestionList(questions[currentSpeakerId]);
+      setCurrentRankingList(rankings[currentSpeakerId]);
+    }
+  }, [currentSpeakerId, questions])
+
+  /** 웹소켓 연결 */
+  useEffect(() => {
+    if (seminarRoom.seminarId > 0 && userId > 0 && !isSocketConnected) {
       // TODO: async-await 형식으로 바꾸기 (connect 성공이면 -> setIsSocketConnected)
       connectWebSockets(seminarRoom.seminarId, receiveBroadcasting);
       setIsSocketConnected(true);
@@ -108,19 +112,29 @@ function Main() {
       </Background>
       <PageArea>
         <Navigation>
-          <ScrollableTabBar />
+          <ScrollableTabBar>
+            {speakers.map(s => (
+              <div key={s.speakerId}>
+                <p>{s.speakerTopic}</p>
+                <p>
+                  <span>{s.speakerName}</span>
+                  <span>{s.organization}</span>
+                </p>
+              </div>
+            ))}
+          </ScrollableTabBar>
         </Navigation>
         <RankingSection>
           <RankingTitle>Question Ranking</RankingTitle>
           <RankingFoldButton>접는 아이콘</RankingFoldButton>
         </RankingSection>
         <QuestionSection>
-          {currentSpeakerId > 0 && <QuestionList list={questions[currentSpeakerId]} />}
+          <QuestionList list={currentQuestionList} />
         </QuestionSection>
         <AskQuestion>
           <Input onChange={inputChange} />
           {/* TODO: 가로 길이에 따라 조건부 렌더링 */}
-          {1 === 1 ? <Button onClick={postNewQuestion}>Send</Button>
+          {1 === 1 ? <SendButton onClick={postNewQuestion}>Send</SendButton>
             : <MobileButton onClick={postNewQuestion}>
             </MobileButton>}
         </AskQuestion>
@@ -133,6 +147,7 @@ export default React.memo(Main);
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
+  font-family: 'Noto Sans KR', sans-serif;;
 `;
 
 const Background = styled.div`
@@ -143,7 +158,7 @@ const Background = styled.div`
   position: absolute;
   z-index: -1;
   background-color: #f2f2f2;
-  font-family: NotoSansCJKkr;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 100;
   text-align: left;
   color: rgba(0, 0, 0, 0.08);
@@ -153,7 +168,6 @@ const SeminarTitle = styled.div`
   width: 300px;
   height: 100%;
   font-size: 48px;
-  font-weight: 50;
   line-height: 1.67;
   overflow-y: hidden;
 `;
@@ -161,7 +175,6 @@ const SeminarTitle = styled.div`
 const SeminarId = styled.div`
   width: 183px;
   height: 100px;
-  font-weight: 30;
   align-self: flex-end;
   font-size: 88px;
   line-height: 0.91;
@@ -189,7 +202,7 @@ const RankingSection = styled.div`
 `;
 
 const RankingTitle = styled.h2`
-  font-family: 'NotoSans';
+  font-family: 'Noto Sans', sans-serif;
   font-size: 16px;
   font-weight: bold;
   font-stretch: normal;
@@ -227,7 +240,7 @@ const Input = styled.textarea`
   outline: none;
 `;
 
-const Button = styled.button`
+const SendButton = styled.button`
   font-size: 20px;
   font-weight: bold;
   line-height: 1.45;
@@ -238,6 +251,7 @@ const Button = styled.button`
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   margin: 7px 0 9px 0;
   outline: none;
+  /* TODO: props 받아서 color: #f2c063 적용하기 */
 `;
 
 const MobileButton = styled.button`
