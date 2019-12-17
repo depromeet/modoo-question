@@ -9,11 +9,6 @@ import { createSeminarRoom } from '../../remotes/api';
 import SpeakerFormsContainer from '../SpeakerForms';
 
 class EnterCondition extends Component {
-  constructor(props) {
-    super(props);
-    
-  }
-
   createRoom = () => {
     const { value, setValue } = this.props;
     const password = value.password.first + value.password.second + value.password.third + value.password.fourth;
@@ -30,7 +25,11 @@ class EnterCondition extends Component {
       "seminarPassword": `${password}`,
       "seminarTitle": `${value.userSeminarName}`
     }
-    createSeminarRoom(seminarDto, speakerList);
+    createSeminarRoom(seminarDto, speakerList).then(data => {
+      console.log(data[0].seminarRoom);
+      const { seminarTitle, seminarId, shortURL } = data[0].seminarRoom
+      setValue.setUserSeminarName(seminarTitle, seminarId, shortURL);
+    });
     setValue.handleIsClickedReverseTriangleToFalse();
     setValue.handleIsCreatedRoom();
   }
@@ -39,17 +38,8 @@ class EnterCondition extends Component {
     const { value, setValue } = this.props;
     const isCorrectRoomNumber = value.roomNumber.first.length && value.isClickedConfirmButton;
     
-    // 방 정상적으로 생성 후 진입
-    if (value.isCreatedRoom) {
-      return (
-          <Wrap>
-            <Logo />
-            <SeminarInfoContainer />
-          </Wrap>
-        );
-    }
-    // 유저가 방 번호 입력후 확인 버튼 눌러서 진입: 나중에 위의 뷰랑 합쳐야 할듯
-    else if (isCorrectRoomNumber) {
+    // 유저가 방 번호 입력후 확인 버튼 눌러서 진입 || // 방 정상적으로 생성 후 진입
+    if (isCorrectRoomNumber || value.isCreatedRoom) {
       return (
           <Wrap>
             <Logo />

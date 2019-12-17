@@ -151,7 +151,7 @@ class PasswordForm extends Component {
         <Inputs isAdminMode={isClickedAdminMode}>
           <Input 
             type="password" 
-            placeholder="0" 
+            placeholder="*" 
             className="first" 
             value={first}
             onChange={this.handleMoveFocusInput} 
@@ -163,7 +163,7 @@ class PasswordForm extends Component {
           />
           <Input 
             type="password" 
-            placeholder="0" 
+            placeholder="*" 
             className="second" 
             value={second} 
             onChange={this.handleMoveFocusInput} 
@@ -175,7 +175,7 @@ class PasswordForm extends Component {
           />
           <Input 
             type="password" 
-            placeholder="0" 
+            placeholder="*" 
             className="third" 
             value={third}
             onChange={this.handleMoveFocusInput} 
@@ -187,7 +187,7 @@ class PasswordForm extends Component {
           />
           <Input 
             type="password" 
-            placeholder="0" 
+            placeholder="*" 
             className="fourth" 
             value={fourth} 
             onChange={this.handleMoveFocusInput} 

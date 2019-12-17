@@ -6,7 +6,7 @@ import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 
 class SeminarInfo extends Component {
   render() {
-    const { userSeminarName, roomNumber, shortUrl, numberOfPeople } = this.props.value;
+    const { userSeminarName, seminarId, shortUrl, numberOfPeople } = this.props.value;
     return (
       <Fragment>
       <Wrap>
@@ -18,7 +18,7 @@ class SeminarInfo extends Component {
         <Row>
           <WrapRoomNumber>
             <FormSeminarHeader>{'방 번호'}</FormSeminarHeader>
-            <UsersSeminarRoomNumber>{roomNumber.first + roomNumber.second + roomNumber.third + roomNumber.fourth}</UsersSeminarRoomNumber>
+            <UsersSeminarRoomNumber>{seminarId}</UsersSeminarRoomNumber>
           </WrapRoomNumber>
           <WrapUrl>
             <FormSeminarHeader>{'URL'}</FormSeminarHeader>

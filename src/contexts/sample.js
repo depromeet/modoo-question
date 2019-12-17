@@ -15,6 +15,7 @@ class SampleProvider extends Component {
     seminars: [
       {title: '', speakerName: '', division: ''},
     ],
+    seminarId: '',
     userSeminarName: '',
     shortUrl: '',
     numberOfPeople: 0,
@@ -68,6 +69,7 @@ class SampleProvider extends Component {
       const { first, second, third, fourth } = this.state.roomNumber;
       const userRoomNumber = Number(first + second + third + fourth)
 
+      this.setState({ seminarId: userRoomNumber })
       enterSeminar(userRoomNumber).then(data => {
         this.setState({ userSeminarName: data.member.seminarRoom.seminarTitle })
         this.setState({ shortUrl: data.member.seminarRoom.shortURL })
@@ -98,6 +100,11 @@ class SampleProvider extends Component {
     },
     handleUserSeminarName: (event) => {
       this.setState({ userSeminarName: event.target.value });
+    },
+    setUserSeminarName: (title, id, url) => {
+      this.setState({ userSeminarName: title });
+      this.setState({ seminarId: id });
+      this.setState({ shortUrl: url });
     }
   }
 
