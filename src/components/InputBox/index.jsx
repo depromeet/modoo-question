@@ -16,7 +16,7 @@ class InputBox extends Component {
 
   handleChangeInput = (event) => {
     // 클릭 초기화
-    this.props.setValue.handleIsClickedConfirmButtonToFalse();
+    this.props.setValue.handleInvalidRoomNumberToFalse();
 
     const changedText = event.target.value;
     const isLessTwoDigits = () => {

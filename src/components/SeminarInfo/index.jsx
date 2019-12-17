@@ -1,41 +1,36 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from '@emotion/styled';
 import urlCopyButtonImg from '../../static/images/10-20@3x.png';
 import { SampleConsumer } from '../../contexts/sample.js';
 import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 
-const seminarFakeInfo = {
-  title: "세미나 이름은 무엇일까요? 이름은무엇일까요? 세미나 이름은 무엇",
-  numberOfPeople: "(83명)",
-  roomNumber: "0001",
-  url: "www.bit.ly/xxxxxx",
-}
-
-const SeminarInfo = (value) => {
-  const { userSeminarName, roomNumber } = value.value;
-  return (
-    <Fragment>
+class SeminarInfo extends Component {
+  render() {
+    const { userSeminarName, roomNumber, shortUrl, numberOfPeople } = this.props.value;
+    return (
+      <Fragment>
       <Wrap>
-        <FormSeminarHeader>세미나 이름</FormSeminarHeader>
+        <FormSeminarHeader>{'세미나 이름'}</FormSeminarHeader>
         <UsersSeminarTitle>
           {userSeminarName}
-          <NumberOfPeople> (0 명)</NumberOfPeople>
+          <NumberOfPeople>{` (${numberOfPeople} 명)`}</NumberOfPeople>
         </UsersSeminarTitle>
         <Row>
           <WrapRoomNumber>
-            <FormSeminarHeader>방 번호</FormSeminarHeader>
-            <UsersSeminarRoomNumber>{roomNumber.first+roomNumber.second+roomNumber.third+roomNumber.fourth}</UsersSeminarRoomNumber>
+            <FormSeminarHeader>{'방 번호'}</FormSeminarHeader>
+            <UsersSeminarRoomNumber>{roomNumber.first + roomNumber.second + roomNumber.third + roomNumber.fourth}</UsersSeminarRoomNumber>
           </WrapRoomNumber>
           <WrapUrl>
-            <FormSeminarHeader>URL</FormSeminarHeader>
-            <UsersSeminarUrl>{seminarFakeInfo.url}</UsersSeminarUrl>
+            <FormSeminarHeader>{'URL'}</FormSeminarHeader>
+            <UsersSeminarUrl>{shortUrl}</UsersSeminarUrl>
           </WrapUrl>
           <UrlCopyButton />
         </Row>
       </Wrap>
       <ReverseTriangle />
     </Fragment>
-  )
+    )
+  }
 }
 
 const SeminarInfoContainer = () => (

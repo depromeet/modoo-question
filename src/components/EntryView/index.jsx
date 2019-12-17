@@ -8,8 +8,7 @@ const EntryView = () => {
   return (
     <Fragment>
       <EntryBoxContainer />
-      {/* EntrancePhrase: 입장하려는 방의 번호를 입력해주세요 */}
-      <EntrancePhrase />
+      <EntrancePhrase /> {/* EntrancePhrase: 입장하려는 방의 번호를 입력해주세요 */}
       <DesignerAndDevelopers>
         <Column>
           <Row>Designer</Row>

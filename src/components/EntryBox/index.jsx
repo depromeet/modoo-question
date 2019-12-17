@@ -7,12 +7,6 @@ import { PasswordFormContainer } from '../PasswordForm';
 import backspaceImg from '../../static/images/arrow-set-action-n@3x.png';
 
 class EntryBox extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    }
-  }
   render() {
     const { isClickedAdminMode, } = this.props.value;
     const { handleIsClickedAdminMode, handleIsClickedCreateRoomButton, handleIsClickedAdminModeToFalse, } = this.props.setValue;

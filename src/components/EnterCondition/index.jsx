@@ -30,28 +30,25 @@ class EnterCondition extends Component {
       "seminarPassword": `${password}`,
       "seminarTitle": `${value.userSeminarName}`
     }
-    // createSeminarRoom(seminarDto, speakerList);
+    createSeminarRoom(seminarDto, speakerList);
     setValue.handleIsClickedReverseTriangleToFalse();
     setValue.handleIsCreatedRoom();
   }
 
   render() {
     const { value, setValue } = this.props;
-    const isFullInput = value.roomNumber.first.length +
-                        value.roomNumber.second.length +
-                        value.roomNumber.third.length +
-                        value.roomNumber.fourth.length === 4;
-    const isWrongRoomNumber = value.isWrongRoomNumber;
-    const isCorrectRoomNumber = isFullInput && !isWrongRoomNumber && value.isClickedConfirmButton;
+    const isCorrectRoomNumber = value.roomNumber.first.length && value.isClickedConfirmButton;
     
+    // 방 정상적으로 생성 후 진입
     if (value.isCreatedRoom) {
       return (
-        <Wrap>
-          <Logo />
-          <SeminarInfoContainer />
-        </Wrap>
-      )
+          <Wrap>
+            <Logo />
+            <SeminarInfoContainer />
+          </Wrap>
+        );
     }
+    // 유저가 방 번호 입력후 확인 버튼 눌러서 진입: 나중에 위의 뷰랑 합쳐야 할듯
     else if (isCorrectRoomNumber) {
       return (
           <Wrap>
@@ -60,6 +57,7 @@ class EnterCondition extends Component {
           </Wrap>
         );
     }
+    // 방 만들기 버튼 눌러서 진입
     else if (value.isClickedCreateRoomButton) {
       return (
           <Wrap>
@@ -84,7 +82,7 @@ class EnterCondition extends Component {
           <SpeakerFormsContainer />
           <CreateRoomButton onClick={this.createRoom}>방 만들기</CreateRoomButton>
         </WhiteWrapper>
-      )
+      );
     }
     else {
       return (

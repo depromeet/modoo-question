@@ -1,4 +1,5 @@
 import React, { Component, createContext } from 'react';
+import { enterSeminar, getMemberBySeminarId } from '../remotes/api';
 
 const Context = createContext();
 const { Provider, Consumer: SampleConsumer } = Context;
@@ -15,12 +16,14 @@ class SampleProvider extends Component {
       {title: '', speakerName: '', division: ''},
     ],
     userSeminarName: '',
-    isWrongRoomNumber: false, // 방 번호가 잘못되었어?
+    shortUrl: '',
+    numberOfPeople: 0,
     isClickedConfirmButton: false, // 방 입장하기 버튼을 눌렀어?
     isClickedCreateRoomButton: false, // 방 만들기 버튼을 눌렀어?
     isClickedAdminMode: false, // 관리자 모드를 눌렀어?
     isClickedReverseTriangle: false, // 세미나 이름 입력하는 페이지에서 삼각형 버튼 눌렀어?
     isCreatedRoom: false, // 방이 만들어졌어?
+    isInvalidRoomNumber: false,
   }
 
   actions = {
@@ -55,37 +58,46 @@ class SampleProvider extends Component {
     handleIsCreatedRoom: () => {
       this.setState({ isCreatedRoom: true });
     },
+    handleInvalidRoomNumber: () => {
+      this.setState({ isInvalidRoomNumber: true });
+    },
+    handleInvalidRoomNumberToFalse: () => {
+      this.setState({ isInvalidRoomNumber: false });
+    },
+    callApiWithEnterSeminarRoom: () => {
+      const { first, second, third, fourth } = this.state.roomNumber;
+      const userRoomNumber = Number(first + second + third + fourth)
+
+      enterSeminar(userRoomNumber).then(data => {
+        this.setState({ userSeminarName: data.member.seminarRoom.seminarTitle })
+        this.setState({ shortUrl: data.member.seminarRoom.shortURL })
+      }).catch(err => console.log(err));
+
+      getMemberBySeminarId(userRoomNumber).then(data => {
+        this.setState({ numberOfPeople: data.length })
+      }).catch(err => console.log(err));
+    },
     handleChangeSeminarTitle: (event, index) => {
       const newSeminars = this.state.seminars.concat();
       newSeminars[index].title = event.target.value;
-      this.setState({
-        seminars: newSeminars
-      })
+      this.setState({ seminars: newSeminars })
     },
     handleChangeSpeakerName: (event, index) => {
       const newSeminars = this.state.seminars.concat();
       newSeminars[index].speakerName = event.target.value;
-      this.setState({
-        seminars: newSeminars
-      })
+      this.setState({ seminars: newSeminars })
     },
     handleChangeDivision: (event, index) => {
       const newSeminars = this.state.seminars.concat();
       newSeminars[index].division = event.target.value;
-      this.setState({
-        seminars: newSeminars
-      })
+      this.setState({ seminars: newSeminars })
     },
     handleAddSeminarSpeaker: () => {
       const newSeminars = this.state.seminars.concat({title: '', speakerName: '', division: ''})
-      this.setState({
-        seminars: newSeminars
-      })
+      this.setState({ seminars: newSeminars })
     },
     handleUserSeminarName: (event) => {
-      this.setState({
-        userSeminarName: event.target.value
-      });
+      this.setState({ userSeminarName: event.target.value });
     }
   }
 

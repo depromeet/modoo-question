@@ -3,17 +3,28 @@ import styled from '@emotion/styled';
 import { SampleConsumer } from '../../contexts/sample';
 
 class ConfirmButton extends Component {
+  handleIsClickedConfirmButton = () => {
+    this.props.setValue.callApiWithEnterSeminarRoom();
+    
+    // api 호출이 비동기라 100ms 시간 지연 후 실행하도록 함. 고쳐야 함.
+    setTimeout(() => {
+      if (this.props.value.userSeminarName) {
+        this.props.setValue.handleIsClickedConfirmButton();
+      } else {
+        this.props.setValue.handleInvalidRoomNumber();
+      }
+    }, 100)
+  }
+  
   render() {
-    const { first } = this.props.value.roomNumber;
-    const { isWrongRoomNumber, isClickedConfirmButton } = this.props.value;
-    const displayErrorOfRoomNumber = isWrongRoomNumber && first.length && isClickedConfirmButton;
+    const { isInvalidRoomNumber, roomNumber } = this.props.value;
     return (
       <Wrapper>
-        {displayErrorOfRoomNumber ? <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber> : null}
+        {isInvalidRoomNumber ? <WarningWrongNumber>잘못된 방 번호 입니다.</WarningWrongNumber> : null}
         <Confirm 
-          onClick={this.props.setValue.handleIsClickedConfirmButton} 
-          isFullInput={first.length}>
-          확인
+          onClick={this.handleIsClickedConfirmButton} 
+          isFullInput={roomNumber.first.length}>
+          {'확인'}
         </Confirm>
       </Wrapper>
     )
