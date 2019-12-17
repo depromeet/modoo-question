@@ -4,7 +4,7 @@ import { enterSeminar } from '../../remotes/api';
 import { connectWebSockets, postQuestion } from '../../remotes/websocket';
 import { UserContext, SpeakerContext, QuestionContext, RankingContext } from '../../contexts';
 import QuestionList from '../../components/QuestionList';
-//import ScrollableTabBar from '../../components/ScrollableTabBar';
+import ScrollableTabBar from '../../components/ScrollableTabBar';
 
 function Main() {
   // Global State인 Context 변수 및 메소드 불러오기
@@ -108,7 +108,7 @@ function Main() {
       </Background>
       <PageArea>
         <Navigation>
-          {/*<ScrollableTabBar />*/}
+          <ScrollableTabBar />
         </Navigation>
         <RankingSection>
           <RankingTitle>Question Ranking</RankingTitle>
