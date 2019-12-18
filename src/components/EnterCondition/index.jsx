@@ -7,8 +7,17 @@ import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 import { SampleConsumer } from '../../contexts/sample';
 import { createSeminarRoom } from '../../remotes/api';
 import SpeakerFormsContainer from '../SpeakerForms';
+import leftBottomArrow from '../../static/images/leftBottomArrow.png';
+import mouse from '../../static/images/mouse.png';
 
 class EnterCondition extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hideHelp: false,
+    }
+  }
   createRoom = () => {
     const { value, setValue } = this.props;
     const password = value.password.first + value.password.second + value.password.third + value.password.fourth;
@@ -50,10 +59,15 @@ class EnterCondition extends Component {
     // 방 만들기 버튼 눌러서 진입
     else if (value.isClickedCreateRoomButton) {
       return (
-          <Wrap>
+          <Wrap onClick={() => {this.setState({ hideHelp: true })}}>
             <Logo />
+            {this.state.hideHelp ? null :
+            <Help>
+              <Arrow />
+              <Phrase>세미나 이름은 최대 32글자입니다.</Phrase>
+            </Help>}
             <WrapInput>
-              <SeminarTitleForm>세미나 제목</SeminarTitleForm>
+              <SeminarTitleForm>세미나 이름</SeminarTitleForm>
               <Input 
                 onChange={setValue.handleUserSeminarName} 
                 value={value.userSeminarName} 
@@ -63,6 +77,7 @@ class EnterCondition extends Component {
               <BorderBottom />
             </WrapInput>
             <ReverseTriangle onClick={setValue.handleIsClickedReverseTriangle}/>
+            {value.userSeminarName ? <HelpMouse /> : null}
           </Wrap>
       );
     }
@@ -99,6 +114,45 @@ export const EnterConditionContainer = () => (
     </SampleConsumer>
   </Background>
 )
+
+const HelpMouse = styled.div`
+  background-image: url(${mouse});
+  background-size: cover;
+  width: 24px;
+  height: 40px;
+  position: absolute;
+  left: 49.1vw;
+  bottom: 4vh;
+`
+
+const Help = styled.div`
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 51.78vh;
+`
+
+const Arrow = styled.div`
+  background-image: url(${leftBottomArrow});
+  background-size: cover;
+  width: 98.9px;
+  height: 49.2px;
+  position: relative;
+  left: 150px;
+  top: 20px;
+`
+
+const Phrase = styled.span`
+  width: 193px;
+  height: 23px;
+  font-family: NanumPen;
+  font-size: 20px;
+  line-height: 1.1;
+  color: #f2c063;
+  position: relative;
+  left: 254px;
+  bottom: 38px;
+`
 
 const CreateRoomButton = styled.div`
   width: 70px;

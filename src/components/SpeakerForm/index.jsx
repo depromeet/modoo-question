@@ -52,7 +52,6 @@ const Wrap = styled.div`
   width: 200px;
   height: 48px;
   margin: 0;
-  padding: 4px;
   margin-left: 16px;
 ` 
 
