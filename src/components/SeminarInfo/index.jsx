@@ -54,17 +54,18 @@ const ReverseTriangle = styled.div`
   width: 18px;
   height: 18px;
   position: absolute;
-  bottom: 16px;
-  left: 631px;
+  left: 49.29vw;
+  bottom: 1.9vh;
 `
 
 const Wrap = styled.div`
   position: absolute;
   bottom: 66px;
   left: 16px;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
 
   @media screen and (min-width: 769px) {
+    /* top: 60.47vh; */
     position: relative;
     top: 50.23vh;
     left: 32px;

@@ -53,14 +53,14 @@ class EnterCondition extends Component {
           <Wrap>
             <Logo />
             <WrapInput>
-            <SeminarTitleForm>세미나 제목</SeminarTitleForm>
-            <Input 
-              onChange={setValue.handleUserSeminarName} 
-              value={value.userSeminarName} 
-              placeholder="세미나 이름은 무엇인가요?" 
-              maxLength="32" 
-            />
-            <BorderBottom />
+              <SeminarTitleForm>세미나 제목</SeminarTitleForm>
+              <Input 
+                onChange={setValue.handleUserSeminarName} 
+                value={value.userSeminarName} 
+                placeholder="세미나 이름은 무엇인가요?" 
+                maxLength="32" 
+              />
+              <BorderBottom />
             </WrapInput>
             <ReverseTriangle onClick={setValue.handleIsClickedReverseTriangle}/>
           </Wrap>
@@ -109,8 +109,9 @@ const CreateRoomButton = styled.div`
   text-align: left;
   color: rgba(0, 0, 0, 0.87);
   margin: 0 auto;
-  position: relative;
-  top: 725px;
+  position: absolute;
+  left: 47.26vw;
+  bottom: 3.8vh;
   text-decoration: underline;
 `
 
@@ -135,8 +136,8 @@ const ReverseTriangle = styled.div`
   width: 18px;
   height: 18px;
   position: absolute;
-  bottom: 16px;
-  left: 631px;
+  left: 49.29vw;
+  bottom: 1.9vh;
 `
 
 const BorderBottom = styled.div`
@@ -144,18 +145,19 @@ const BorderBottom = styled.div`
   height: 2px;
   margin: 0 auto;
   position: relative;
+  left: 32px;
   bottom: 92px;
   border-bottom: solid 2px rgba(112, 112, 112, 0.3);
 `
 
 const WrapInput = styled.div`
-  position: relative;
-  top: 492px;
+  position: absolute;
+  top: 60.47vh;
 `
 
 const SeminarTitleForm = styled.div`
   -webkit-text-stroke: 0.5px #707070;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 24px;
   font-weight: 300;
   line-height: 0.92;
@@ -173,7 +175,7 @@ const Input = styled.textarea`
   height: 158px;
   position: relative;
   left: 32px;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 48px;
   font-weight: bold;
   line-height: 1.67;

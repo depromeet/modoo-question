@@ -129,6 +129,7 @@ const EntranceRoom = styled.div`
 `
 
 const CreateRoom = styled.div`
+  cursor: pointer;
   display: none;
   position: relative;
   right: 16px;
