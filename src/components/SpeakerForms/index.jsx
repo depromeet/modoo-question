@@ -46,6 +46,7 @@ const PlustButton = styled.div`
   margin: 0 auto;
   position: relative;
   top: 14px;
+  cursor: pointer;
 `
 
 const Wrapper = styled.div`
@@ -53,8 +54,9 @@ const Wrapper = styled.div`
   position: relative;
   left: 16px;
   width: 880px;
-  overflow: scroll;
+  overflow-x: scroll;
   top: 32px;
+  height: fit-content;
 `
 
 const CreateSeminarForm = styled.div`

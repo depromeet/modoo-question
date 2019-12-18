@@ -17,6 +17,7 @@ class PasswordForm extends Component {
   handleChangePassword = (event) => {
     // 클릭 초기화
     this.props.setValue.handleIsClickedConfirmButtonToFalse();
+    this.props.setValue.handleInvalidPasswordToFalse();
 
     const changedText = event.target.value;
     const isLessTwoDigits = () => {
@@ -255,6 +256,8 @@ const Input = styled.input`
   ::placeholder {
   color: ${props => props.blink ? 'white' : 'transparent'};
   text-shadow: 0 0 0 rgba(153, 153, 153, 0.1);
+  position: relative;
+  top: 30px;
   }
 
   :focus {

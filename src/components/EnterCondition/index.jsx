@@ -113,6 +113,7 @@ const CreateRoomButton = styled.div`
   left: 47.26vw;
   bottom: 3.8vh;
   text-decoration: underline;
+  cursor: pointer;
 `
 
 const WhiteWrapper = styled.div`
@@ -138,6 +139,7 @@ const ReverseTriangle = styled.div`
   position: absolute;
   left: 49.29vw;
   bottom: 1.9vh;
+  cursor: pointer;
 `
 
 const BorderBottom = styled.div`

@@ -25,6 +25,7 @@ class SampleProvider extends Component {
     isClickedReverseTriangle: false, // 세미나 이름 입력하는 페이지에서 삼각형 버튼 눌렀어?
     isCreatedRoom: false, // 방이 만들어졌어?
     isInvalidRoomNumber: false,
+    isInvalidPassword: false, // 비밀번호가 잘못되었어?
   }
 
   actions = {
@@ -65,6 +66,12 @@ class SampleProvider extends Component {
     handleInvalidRoomNumberToFalse: () => {
       this.setState({ isInvalidRoomNumber: false });
     },
+    handleInvalidPassword: () => {
+      this.setState({ isInvalidPassword: true });
+    },
+    handleInvalidPasswordToFalse: () => {
+      this.setState({ isInvalidPassword: false });
+    },
     callApiWithEnterSeminarRoom: () => {
       const { first, second, third, fourth } = this.state.roomNumber;
       const userRoomNumber = Number(first + second + third + fourth)
@@ -74,6 +81,18 @@ class SampleProvider extends Component {
         this.setState({ userSeminarName: data.member.seminarRoom.seminarTitle })
         this.setState({ shortUrl: data.member.seminarRoom.shortURL })
       }).catch(err => console.log(err));
+
+      getMemberBySeminarId(userRoomNumber).then(data => {
+        this.setState({ numberOfPeople: data.length })
+      }).catch(err => console.log(err));
+    },
+    callApiWithEnterSeminarRoomByAdmin: (seminarId, seminarTitle, shortURL) => {
+      const { first, second, third, fourth } = this.state.roomNumber;
+      const userRoomNumber = Number(first + second + third + fourth)
+
+      this.setState({ seminarId: seminarId });
+      this.setState({ userSeminarName: seminarTitle })
+      this.setState({ shortUrl: shortURL })
 
       getMemberBySeminarId(userRoomNumber).then(data => {
         this.setState({ numberOfPeople: data.length })

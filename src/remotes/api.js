@@ -37,3 +37,8 @@ export async function getMemberBySeminarId(seminarId) {
   const { data } = await axios.get(`${API_ROOT}/api/members/${seminarId}`);
   return data;
 }
+
+export async function enterSeminarByAdmin(seminarId, password) {
+  const { data } = await axios.get(`${API_ROOT}/api/seminar/enter/admin?password=${password}&seminarId=${seminarId}`);
+  return data;
+}

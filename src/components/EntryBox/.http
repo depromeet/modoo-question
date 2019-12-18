@@ -1,35 +1,39 @@
+# 관리자로 방 입장하기
+# GET http://13.125.252.156:8081/api/seminar/enter/admin?password=7777&seminarId=1707
+GET http://13.125.252.156:8081/api/seminar/enter/admin?password=7776&seminarId=1707
+
 # # 멤버로 방 입장하기
 # # http://13.125.252.156:8081/api/seminar/enter/{seminarid}/{mid}
 # GET http://13.125.252.156:8081/api/seminar/enter/211/0
 
-# 세미나 방 만들기
-POST  http://13.125.252.156:8081/api/seminar
-Content-Type: application/json
+# # 세미나 방 만들기
+# POST  http://13.125.252.156:8081/api/seminar
+# Content-Type: application/json
 
-{
-  "seminarRoomDto": {
-    "fullURL": "https://www.naver.com",
-    "seminarPassword": "7777",
-    "seminarTitle": "가나다라 마바사아 자차카타 파하"
-  },
-  "speakerList": [
-    {
-      "organization": "소속?",
-      "speakerName": "김아무개",
-      "speakerTopic": "컵"
-    },
-    {
-      "organization": "소속2",
-      "speakerName": "홍길동",
-      "speakerTopic": "물"
-    },
-    {
-      "organization": "소속3",
-      "speakerName": "박아무개",
-      "speakerTopic": "커피"
-    }
-  ]
-}
+# {
+#   "seminarRoomDto": {
+#     "fullURL": "https://www.naver.com",
+#     "seminarPassword": "7777",
+#     "seminarTitle": "가나다라 마바사아 자차카타 파하"
+#   },
+#   "speakerList": [
+#     {
+#       "organization": "소속?",
+#       "speakerName": "김아무개",
+#       "speakerTopic": "컵"
+#     },
+#     {
+#       "organization": "소속2",
+#       "speakerName": "홍길동",
+#       "speakerTopic": "물"
+#     },
+#     {
+#       "organization": "소속3",
+#       "speakerName": "박아무개",
+#       "speakerTopic": "커피"
+#     }
+#   ]
+# }
 
 # # 아이디가 204인 멤버 찍어보기
 # GET http://13.125.252.156:8081/api/member/204
