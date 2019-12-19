@@ -16,6 +16,7 @@ class EnterCondition extends Component {
 
     this.state = {
       hideHelp: false,
+      isClickedAnywhere: false,
     }
   }
   createRoom = () => {
@@ -41,6 +42,9 @@ class EnterCondition extends Component {
     });
     setValue.handleIsClickedReverseTriangleToFalse();
     setValue.handleIsCreatedRoom();
+  }
+  handleHelp = () => {
+    this.setState({ isClickedAnywhere: true });
   }
 
   render() {
@@ -83,8 +87,8 @@ class EnterCondition extends Component {
     }
     else if (value.isClickedReverseTriangle) {
       return (
-        <WhiteWrapper>
-          <SpeakerFormsContainer />
+        <WhiteWrapper onClick={this.handleHelp}>
+          <SpeakerFormsContainer isClickedAnywhere={this.state.isClickedAnywhere} />
           <CreateRoomButton onClick={this.createRoom}>방 만들기</CreateRoomButton>
         </WhiteWrapper>
       );
