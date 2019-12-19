@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import urlCopyButtonImg from '../../static/images/10-20@3x.png';
 import { SampleConsumer } from '../../contexts/sample.js';
@@ -27,7 +28,7 @@ class SeminarInfo extends Component {
           <UrlCopyButton onClick={()=> {navigator.clipboard.writeText(shortUrl)}}/>
         </Row>
       </Wrap>
-      <ReverseTriangle />
+      <Link to={`/${seminarId}`}><ReverseTriangle></ReverseTriangle></Link>
     </Fragment>
     )
   }
