@@ -120,7 +120,7 @@ const Wrap = styled.div`
 ` 
 
 const Delimiter = styled.div`
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -142,7 +142,7 @@ const SeminarTitle = styled.input`
   width: 200px;
   height: 24px;
   object-fit: contain;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 16px;
   font-weight: 500;
   font-stretch: normal;
@@ -159,7 +159,7 @@ const SpeakerName = styled.input`
   width: 68px;
   height: 20px;
   object-fit: contain;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -176,7 +176,7 @@ const Division = styled.input`
   width: 134px;
   height: 20px;
   object-fit: contain;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;

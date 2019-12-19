@@ -237,7 +237,7 @@ const Inputs = styled.div`
 const Input = styled.input`
   height: 100%;
   width: 60px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: Noto Sans KR;
   font-size: 85px;
   font-weight: 100;
   line-height: 1.48;
