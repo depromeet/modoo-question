@@ -49,8 +49,8 @@ class SpeakerForms extends Component {
         <Wrapper>
           {value.seminars.map((val, idx) => 
             <SpeakerFormContainer 
-            key={idx} 
-            index={idx} 
+              key={idx} 
+              index={idx} 
             />)}
           <CreateSeminarForm>
             <PlustButton onClick={this.handlePlusButton} />

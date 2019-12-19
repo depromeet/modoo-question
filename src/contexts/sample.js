@@ -98,6 +98,9 @@ class SampleProvider extends Component {
         this.setState({ numberOfPeople: data.length })
       }).catch(err => console.log(err));
     },
+    handleChangeSeminar: (value) => {
+      this.setState({ seminars: value })
+    },
     handleChangeSeminarTitle: (event, index) => {
       const newSeminars = this.state.seminars.concat();
       newSeminars[index].title = event.target.value;
