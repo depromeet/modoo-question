@@ -1,26 +1,26 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
-import DesignerAndDevelopersImg from '../../static/images/11615@3x.png';
 import EntrancePhraseImg from '../../static/images/mobile-invalid-name@3x.png';
 import BigEntrancePhraseImg from '../../static/images/invalid-name@3x.png';
-import EntryBox from '../EntryBox';
+import { EntryBoxContainer } from '../EntryBox';
 
-const EntryView = ({ input1, input2, input3, input4, handleChangeInput, pressedKey, isFullInput, isWrongRoomNumber, isClickedConfirmButton, handleClickConfirmButton }) => {
+const EntryView = () => {
   return (
     <Fragment>
-      <EntryBox 
-        input1={input1}
-        input2={input2}
-        input3={input3}
-        input4={input4}
-        handleChangeInput={handleChangeInput}
-        pressedKey={pressedKey}
-        isWrongRoomNumber={isWrongRoomNumber}
-        isClickedConfirmButton={isClickedConfirmButton}
-        handleClickConfirmButton={handleClickConfirmButton}
-        />
-      <EntrancePhrase />
-      <DesignerAndDevelopers />
+      <EntryBoxContainer />
+      <EntrancePhrase /> {/* EntrancePhrase: 입장하려는 방의 번호를 입력해주세요 */}
+      <DesignerAndDevelopers>
+        <Column>
+          <Row>Designer</Row>
+          <Row>Developers</Row>
+        </Column>
+        <Column>
+          <Name>Kyeongrae, Noh</Name>
+          <Name>Jiwoon, Kim</Name>
+          <Name>Kyuseock, Ma</Name>
+          <Name>Yongseong, Jeon</Name>
+        </Column>
+      </DesignerAndDevelopers>
     </Fragment>
   )
 }
@@ -48,13 +48,40 @@ const EntrancePhrase = styled.div`
 `
 
 const DesignerAndDevelopers = styled.div`
+  display: none;
+
   @media screen and (min-width: 769px) {
-    width: 161px;
-    height: 89px;
-    background-image: url(${DesignerAndDevelopersImg});
-    background-size: cover;
-    position: absolute;
-    bottom: 32px;
-    right: 32px;
-  }
+      width: 161px;
+      height: 89px;
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      display: flex;
+    }
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Row = styled.div`
+  font-family: Noto Sans;
+  font-size: 12px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 2;
+  color: rgba(0, 0, 0, 0.16);
+`
+
+const Name = styled.div`
+  font-family: Noto Sans;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 2;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.16);
+  position: relative;
+  left: 20px;
 `

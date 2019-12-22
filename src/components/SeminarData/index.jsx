@@ -20,7 +20,7 @@ export default SeminarData;
 
 const Wrap = styled.div`
   margin-right: ${props => props.rightMargin};
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
 `
 
 const SeminarDataTitle = styled.div`

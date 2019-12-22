@@ -1,48 +1,74 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import urlCopyButtonImg from '../../static/images/10-20@3x.png';
+import { SampleConsumer } from '../../contexts/sample.js';
+import reverseTriangle from '../../static/images/arrow-up-b-n@3x.png';
 
-const seminarFakeInfo = {
-  title: "세미나 이름은 무엇일까요? 이름은무엇일까요? 세미나 이름은 무엇",
-  numberOfPeople: "(83명)",
-  roomNumber: "0001",
-  url: "www.bit.ly/xxxxxx",
+class SeminarInfo extends Component {
+  render() {
+    const { userSeminarName, seminarId, shortUrl, numberOfPeople } = this.props.value;
+    return (
+      <Fragment>
+      <Wrap>
+        <FormSeminarHeader>{'세미나 이름'}</FormSeminarHeader>
+        <UsersSeminarTitle>
+          {userSeminarName}
+          <NumberOfPeople>{` (${numberOfPeople} 명)`}</NumberOfPeople>
+        </UsersSeminarTitle>
+        <Row>
+          <WrapRoomNumber>
+            <FormSeminarHeader>{'방 번호'}</FormSeminarHeader>
+            <UsersSeminarRoomNumber>{seminarId}</UsersSeminarRoomNumber>
+          </WrapRoomNumber>
+          <WrapUrl>
+            <FormSeminarHeader>{'URL'}</FormSeminarHeader>
+            <UsersSeminarUrl>{shortUrl}</UsersSeminarUrl>
+          </WrapUrl>
+          <UrlCopyButton onClick={()=> {navigator.clipboard.writeText(shortUrl)}}/>
+        </Row>
+      </Wrap>
+      <Link to={`/${seminarId}`}><ReverseTriangle></ReverseTriangle></Link>
+    </Fragment>
+    )
+  }
 }
 
-const SeminarInfo = () => {
-  return (
-    <Wrap>
-      <FormSeminarHeader>세미나 이름</FormSeminarHeader>
-      <UsersSeminarTitle>
-        {seminarFakeInfo.title}
-        <NumberOfPeople> {seminarFakeInfo.numberOfPeople}</NumberOfPeople>
-      </UsersSeminarTitle>
-      <Row>
-        <WrapRoomNumber>
-          <FormSeminarHeader>방 번호</FormSeminarHeader>
-          <UsersSeminarRoomNumber>{seminarFakeInfo.roomNumber}</UsersSeminarRoomNumber>
-        </WrapRoomNumber>
-        <WrapUrl>
-          <FormSeminarHeader>URL</FormSeminarHeader>
-          <UsersSeminarUrl>{seminarFakeInfo.url}</UsersSeminarUrl>
-        </WrapUrl>
-        <UrlCopyButton />
-      </Row>
-    </Wrap>
-  )
-}
+const SeminarInfoContainer = () => (
+  <SampleConsumer>
+    {
+      ({state, actions}) => (
+        <SeminarInfo
+          value={state}
+          setValue={actions}
+        />
+      )
+    }
+  </SampleConsumer>
+)
 
-export default SeminarInfo;
+export default SeminarInfoContainer;
+
+const ReverseTriangle = styled.div`
+  background-image: url(${reverseTriangle});
+  background-size: cover;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  left: 49.29vw;
+  bottom: 1.9vh;
+`
 
 const Wrap = styled.div`
   position: absolute;
   bottom: 66px;
   left: 16px;
-  font-family: NotoSansCJKkr;
+  font-family: Noto Sans KR;
 
   @media screen and (min-width: 769px) {
+    /* top: 60.47vh; */
     position: relative;
-    top: 422px;
+    top: 50.23vh;
     left: 32px;
   }  
 `
@@ -59,6 +85,7 @@ const UrlCopyButton = styled.div`
   height: 24px;
   position: relative;
   top: 21px;
+  cursor: pointer;
 
   @media screen and (min-width: 769px) {
     width: 48px;
